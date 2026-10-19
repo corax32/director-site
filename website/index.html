@@ -11,13 +11,18 @@
   <title>Director — Your game. Your direction.</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="director-preview.css">
   <script src="app.js" defer></script>
+  <script src="director-controls.js" defer></script>
+  <script src="director-preview.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="arrow-up-right" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
     <symbol id="arrow-right" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 8.5v11a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-11"/></symbol>
+    <symbol id="icon-combat" viewBox="0 0 24 24"><path d="m8.5 12.5 8.3-8.3L21 3l-1.2 4.2-8.3 8.3ZM7 11l6 6m-3-3-4.2 4.2"/><circle cx="4.75" cy="19.25" r="1.5"/></symbol>
     <symbol id="icon-defense" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8 12 3 3 5-6"/></symbol>
     <symbol id="icon-visuals" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="icon-profiles" viewBox="0 0 24 24"><path d="M5 3v18M12 3v18M19 3v18"/><path d="M2 8h6m1 9h6m1-10h6"/></symbol>
@@ -62,56 +67,25 @@
       </div>
 
       <div class="preview-stage" id="interface">
-        <div class="stage-coordinates" aria-hidden="true"><span>DIRECTOR / UI—01</span><span>INTERACTIVE PREVIEW</span></div>
-        <div class="app-window">
-          <div class="app-titlebar"><span class="mini-brand">DIRECTOR</span><span class="preview-badge">PREVIEW</span><span class="window-decoration" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-minimize"/></svg><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-maximize"/></svg></span></div>
-          <div class="app-body">
-            <div class="app-tabs" role="tablist" aria-label="Preview features" aria-orientation="vertical">
-              <button type="button" id="tab-defense" role="tab" aria-selected="true" aria-controls="panel-defense" data-tab="defense" title="Defense"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-defense"/></svg><span>Defense</span></button>
-              <button type="button" id="tab-visuals" role="tab" aria-selected="false" aria-controls="panel-visuals" data-tab="visuals" tabindex="-1" title="Visuals"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-visuals"/></svg><span>Visuals</span></button>
-              <button type="button" id="tab-profiles" role="tab" aria-selected="false" aria-controls="panel-profiles" data-tab="profiles" tabindex="-1" title="Profiles"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-profiles"/></svg><span>Profiles</span></button>
-              <button type="button" id="tab-performance" role="tab" aria-selected="false" aria-controls="panel-performance" data-tab="performance" tabindex="-1" title="Performance"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-performance"/></svg><span>Performance</span></button>
+        <div class="stage-coordinates" aria-hidden="true"><span>DIRECTOR / UI—01</span><span>INTERACTIVE MENU</span></div>
+        <div id="dw-window-home">
+          <div class="director-window" role="region" aria-label="Director interactive menu preview">
+            <div class="dw-header">
+              <div class="dw-title">DIRECTOR <span>DEVELOPMENT</span></div>
+              <div class="dw-search">
+                <input id="dw-search" type="search" placeholder="Search settings..." aria-label="Search menu settings" aria-expanded="false" aria-controls="dw-search-results" autocomplete="off" maxlength="80">
+                <div class="dw-search-results" id="dw-search-results" aria-label="Matching settings" hidden></div>
+              </div>
             </div>
-            <div class="app-content">
-              <section class="preview-panel" id="panel-defense" role="tabpanel" aria-labelledby="tab-defense" tabindex="0">
-                <div class="panel-heading"><div><span class="micro-label">COMBAT</span><h2>Auto Defense</h2></div><span class="panel-number">01</span></div>
-                <p class="panel-description">Fine-tune the response. Keep control.</p>
-                <div class="preview-setting"><span>Auto Defense<small>Animation, sound &amp; effect cues</small></span><button type="button" class="switch" role="switch" aria-label="Auto Defense preview" aria-checked="true"><span></span></button></div>
-                <div class="preview-setting"><span>Manual-only PvP moves<small>Choose what you handle yourself</small></span><button type="button" class="switch" role="switch" aria-label="Manual-only PvP moves preview" aria-checked="true"><span></span></button></div>
-                <div class="move-tags"><span>Vent</span><span>Hair Spray</span><span>Parasitic Leech</span></div>
-                <div class="preview-setting"><span>Defense trace<small>Inspect the decisions behind each action</small></span><button type="button" class="switch" role="switch" aria-label="Defense trace preview" aria-checked="false"><span></span></button></div>
-                <div class="panel-note"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-turn"/></svg> Your settings. Your level of assistance.</div>
-              </section>
-              <section class="preview-panel" id="panel-visuals" role="tabpanel" aria-labelledby="tab-visuals" tabindex="0" hidden>
-                <div class="panel-heading"><div><span class="micro-label">WORLD</span><h2>A clearer picture</h2></div><span class="panel-number">02</span></div>
-                <p class="panel-description">Choose the details you want to see.</p>
-                <div class="preview-setting"><span>Player markers<small>Names, distance &amp; health</small></span><button type="button" class="switch" role="switch" aria-label="Player markers preview" aria-checked="true"><span></span></button></div>
-                <div class="preview-setting"><span>World markers<small>Items, NPCs &amp; places</small></span><button type="button" class="switch" role="switch" aria-label="World markers preview" aria-checked="false"><span></span></button></div>
-                <label class="range-label" for="preview-range">Marker distance <output id="range-output" for="preview-range">500 studs</output></label><input id="preview-range" type="range" min="100" max="1000" step="50" value="500">
-                <div class="renderer-row"><span>Renderer</span><span class="renderer-pill">Drawing</span></div>
-                <div class="panel-note"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-turn"/></svg> Keep the view focused on what matters.</div>
-              </section>
-              <section class="preview-panel" id="panel-profiles" role="tabpanel" aria-labelledby="tab-profiles" tabindex="0" hidden>
-                <div class="panel-heading"><div><span class="micro-label">PERSONAL</span><h2>Make it yours</h2></div><span class="panel-number">03</span></div>
-                <p class="panel-description">Different sessions. Familiar settings.</p>
-                <label class="profile-label" for="preview-profile">Profile name</label><input class="profile-input" id="preview-profile" value="My Director" maxlength="32" autocomplete="off">
-                <div class="preview-setting"><span>Autoload profile<small>Start with your preferred setup</small></span><button type="button" class="switch" role="switch" aria-label="Autoload profile preview" aria-checked="true"><span></span></button></div>
-                <div class="theme-row"><span>Director theme</span><div class="swatches" aria-label="Monochrome palette"><i></i><i></i><i></i><i></i><i></i></div></div>
-                <button class="preview-save" type="button">Apply to preview <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-right"/></svg></button>
-                <div class="panel-note" id="profile-status" aria-live="polite"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-turn"/></svg> <span id="profile-status-text">Preview settings stay in this tab.</span></div>
-              </section>
-              <section class="preview-panel" id="panel-performance" role="tabpanel" aria-labelledby="tab-performance" tabindex="0" hidden>
-                <div class="panel-heading"><div><span class="micro-label">DIAGNOSTICS</span><h2>See the whole frame</h2></div><span class="panel-number">04</span></div>
-                <p class="panel-description">Measure the work behind the experience.</p>
-                <div class="preview-setting"><span>Performance profiling<small>Frame timing &amp; callback activity</small></span><button type="button" class="switch" role="switch" aria-label="Performance profiling preview" aria-checked="false"><span></span></button></div>
-                <div class="diagnostic-lines"><span>01 <b>Local frame times</b><em>Observe</em></span><span>02 <b>Callback workload</b><em>Inspect</em></span><span>03 <b>Defense decisions</b><em>Trace</em></span></div>
-                <div class="panel-note"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-turn"/></svg> Measurements are available in the app.</div>
-              </section>
+            <div class="dw-body">
+              <div class="dw-sidebar" role="tablist" aria-label="Director menu tabs" aria-orientation="vertical"></div>
+              <div class="dw-panels"></div>
             </div>
+            <div class="dw-footer"><span class="dw-footer-label">BROWSER PREVIEW</span><span class="dw-status" role="status">Loading menu...</span></div>
           </div>
-          <div class="app-statusbar"><span><span class="status-dot"></span><span id="preview-name">My Director</span></span><span>LOCAL PREVIEW <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-monitor"/></svg></span></div>
+          <noscript><p class="dw-note">Enable JavaScript to try the interactive Director menu.</p></noscript>
         </div>
-        <p class="preview-caption"><span><svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-left"/></svg> Click around. Make yourself at home.</span><span>Illustrative UI · no connection to the game</span></p>
+        <div class="dw-caption"><p>Recreated from Director's Lua menu. Try the controls, search, and themes here.</p><button class="dw-expand" type="button" aria-haspopup="dialog">Expand menu <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-maximize"/></svg></button></div>
       </div>
     </section>
 
@@ -144,6 +118,7 @@
 
     <section class="closing section-shell"><span class="eyebrow">BUILT TO BE YOURS</span><div><h2>Take direction.</h2><a class="closing-arrow" href="#interface" aria-label="Back to the interactive Director preview"><svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div><p>Start with a setting. Make it your own.</p></section>
   </main>
+  <dialog class="dw-dialog" aria-label="Expanded Director menu"><div class="dw-dialog-top"><span>Director menu · browser preview</span><button class="dw-close" type="button" autofocus>Close <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></button></div></dialog>
   <footer class="site-footer section-shell"><a class="brand" href="#">director<span class="brand-period">.</span></a><span>Independent project. Not affiliated with Roblox or Deepwoken.</span><div><a href="https://github.com/corax32/director" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#main">Back to top <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div></footer>
 </body>
 </html>

@@ -22,49 +22,6 @@ document.addEventListener('click', event => {
   if (!event.target.closest('.site-header')) closeMenu();
 });
 
-const tabs = [...document.querySelectorAll('[role="tab"]')];
-function activateTab(tab, focus = false) {
-  tabs.forEach(item => {
-    const selected = item === tab;
-    item.setAttribute('aria-selected', String(selected));
-    item.tabIndex = selected ? 0 : -1;
-    document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
-  });
-  if (focus) tab.focus();
-}
-tabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => activateTab(tab));
-  tab.addEventListener('keydown', event => {
-    let next;
-    if (event.key === 'ArrowDown') next = (index + 1) % tabs.length;
-    else if (event.key === 'ArrowUp') next = (index - 1 + tabs.length) % tabs.length;
-    else if (event.key === 'Home') next = 0;
-    else if (event.key === 'End') next = tabs.length - 1;
-    if (next !== undefined) { event.preventDefault(); activateTab(tabs[next], true); }
-  });
-});
-
-document.querySelectorAll('.switch').forEach(control => {
-  control.addEventListener('click', () => {
-    const checked = control.getAttribute('aria-checked') !== 'true';
-    control.setAttribute('aria-checked', String(checked));
-    if (control.getAttribute('aria-label') === 'Manual-only PvP moves preview') {
-      document.querySelector('.move-tags').classList.toggle('is-muted', !checked);
-    }
-  });
-});
-const markerRange = document.querySelector('#preview-range');
-markerRange.addEventListener('input', () => {
-  document.querySelector('#range-output').value = markerRange.value + ' studs';
-});
-document.querySelector('.preview-save').addEventListener('click', () => {
-  const input = document.querySelector('#preview-profile');
-  const name = input.value.trim() || 'My Director';
-  input.value = name;
-  document.querySelector('#preview-name').textContent = name;
-  document.querySelector('#profile-status-text').textContent = '“' + name + '” applied to this preview only.';
-});
-
 const copyButton = document.querySelector('#copy-command');
 copyButton.addEventListener('click', async () => {
   const command = document.querySelector('#build-command');
