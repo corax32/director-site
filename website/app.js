@@ -62,7 +62,7 @@ document.querySelector('.preview-save').addEventListener('click', () => {
   const name = input.value.trim() || 'My Director';
   input.value = name;
   document.querySelector('#preview-name').textContent = name;
-  document.querySelector('#profile-status').textContent = '↳ “' + name + '” applied to this preview only.';
+  document.querySelector('#profile-status-text').textContent = '“' + name + '” applied to this preview only.';
 });
 
 const copyButton = document.querySelector('#copy-command');
