@@ -1,10 +1,10 @@
 'use strict';
 
 // A curated browser-only view of the real menu's labels and initial values.
-// Source: director-main/ui/tabs/{main,visuals,combat,auto}.lua,
+// Source: palantir-main/ui/tabs/{main,visuals,combat,auto}.lua,
 // ui/graphics_performance.lua, and utility/librarys/managers/{Save,Theme}Manager.lua.
 // These records contain no game callbacks. Actions are handled by the website.
-window.DIRECTOR_PREVIEW_TABS = [
+window.PALANTIR_PREVIEW_TABS = [
   {
     id: 'main', label: 'Main', icon: 'icon-home',
     columns: [
@@ -137,7 +137,7 @@ window.DIRECTOR_PREVIEW_TABS = [
           {type: 'color', id: 'AccentColor', label: 'Accent color', value: '#d4d4d4'},
           {type: 'color', id: 'OutlineColor', label: 'Outline color', value: '#252525'},
           {type: 'color', id: 'FontColor', label: 'Font color', value: '#999999'},
-          {type: 'select', id: 'ThemeManager_ThemeList', label: 'Theme list', value: 'Director', options: ['Director', 'Volt']}
+          {type: 'select', id: 'ThemeManager_ThemeList', label: 'Theme list', value: 'Palantir', options: ['Palantir', 'Volt']}
         ]}
       ],
       [

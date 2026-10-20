@@ -1,8 +1,8 @@
 'use strict';
 
 (() => {
-  const tabs = window.DIRECTOR_PREVIEW_TABS;
-  const windowElement = document.querySelector('.director-window');
+  const tabs = window.PALANTIR_PREVIEW_TABS;
+  const windowElement = document.querySelector('.palantir-window');
   if (!windowElement || !Array.isArray(tabs)) return;
   const sidebar = windowElement.querySelector('.dw-sidebar');
   const panels = windowElement.querySelector('.dw-panels');
@@ -16,12 +16,13 @@
   const widgets = new Map();
   const searchIndex = [];
   const tabButtons = [];
-  const storageKey = 'director.browser-preview.v1';
+  const storageKey = 'palantir.browser-preview.v1';
+  const legacyStorageKey = 'director.browser-preview.v1';
   let restored = false;
   const themeKeys = ['BackgroundColor', 'MainColor', 'AccentColor', 'OutlineColor', 'FontColor'];
   const themeVariables = ['background', 'main', 'accent', 'outline', 'font'];
   const themes = {
-    Director: ['#000000', '#0c0c0c', '#d4d4d4', '#252525', '#999999'],
+    Palantir: ['#000000', '#0c0c0c', '#d4d4d4', '#252525', '#999999'],
     Volt: ['#1b1b1f', '#131316', '#a78bfa', '#2a2a30', '#e4e4e7']
   };
 
@@ -33,8 +34,10 @@
     return typeof value === 'string' && value.length <= 64;
   }
   try {
-    const saved = JSON.parse(localStorage.getItem(storageKey));
+    // Preserve earlier preview saves, with the Palantir save taking precedence.
+    const saved = JSON.parse(localStorage.getItem(storageKey) ?? localStorage.getItem(legacyStorageKey));
     if (saved && typeof saved === 'object' && !Array.isArray(saved)) {
+      if (saved.ThemeManager_ThemeList === 'Director') saved.ThemeManager_ThemeList = 'Palantir';
       controls.forEach(control => {
         if (Object.hasOwn(saved, control.id) && validValue(control, saved[control.id])) {
           values[control.id] = saved[control.id];
@@ -102,10 +105,11 @@
       applyTheme();
       try {
         localStorage.removeItem(storageKey);
+        localStorage.removeItem(legacyStorageKey);
         announce('Preview reset to the menu defaults.');
       } catch { announce('Preview reset. The browser blocked removal of the saved settings.'); }
     } else {
-      announce(control.label + ' is available in Director in-game. This is a menu preview.');
+      announce(control.label + ' is available in Palantir in-game. This is a menu preview.');
     }
   }
   function renderControl(control, tab, group) {
@@ -163,7 +167,7 @@
           label.className = '';
         } else {
           input.maxLength = 64;
-          input.placeholder = 'My Director';
+          input.placeholder = 'My Palantir';
           input.autocomplete = 'off';
         }
         input.addEventListener('input', () => { values[control.id] = input.value; applyTheme(); });

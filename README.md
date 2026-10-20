@@ -1,10 +1,10 @@
-# Director website
+# Palantir website
 
-The public product website for Director.
+The public product website for Palantir.
 
-**Website:** https://corax32.github.io/director-site/
+**Website:** https://corax32.github.io/palantir-site/
 
-This repository contains only the website and its deployment workflow. The Director application's source is maintained separately in a private repository. The browser-only menu replica follows Director's Lua UI structure; its controls change the browser preview and do not connect to the game.
+This repository contains only the website and its deployment workflow. The Palantir application's source is maintained separately in a private repository. The browser-only menu replica follows Palantir's Lua UI structure; its controls change the browser preview and do not connect to the game.
 
 ## Editing
 
@@ -12,8 +12,8 @@ Edit the static files in `website/`. There are no dependencies or build step. Ch
 
 ```sh
 node --check website/app.js
-node --check website/director-controls.js
-node --check website/director-preview.js
+node --check website/palantir-controls.js
+node --check website/palantir-preview.js
 ```
 
 Changes to `website/` on `main` deploy through GitHub Actions. Only `website/` is uploaded to GitHub Pages. In repository settings, the Pages source must be GitHub Actions.
