@@ -24,7 +24,7 @@ body { background: #080808; }
 .hero-circuit { position: absolute; width: min(880px, 100%); height: 160px; color: #393939; pointer-events: none; }
 .circuit-pulse { color: #bababa; stroke-dasharray: .12 .88; stroke-dashoffset: 1; opacity: 0; }
 .motion-enabled .circuit-pulse { animation: circuit-pass 1.5s ease-out .2s 1 both; }
-.intro-pending .circuit-pulse { animation-delay: 1.65s; }
+.intro-pending .circuit-pulse { animation-delay: 2.7s; }
 .hero-logo-tile {
   position: relative; display: grid; place-items: center; width: 100px; height: 100px;
   border: 1px solid #3a3a3a; border-radius: 19px; background: linear-gradient(145deg, #1c1c1c, #090909 70%);
@@ -67,27 +67,34 @@ body { background: #080808; }
 .closing-arrow:hover { transform: rotate(5deg); }
 .replay-intro { padding: 0; border: 0; background: none; font: inherit; color: inherit; display: inline-flex; align-items: center; gap: 7px; }
 .replay-intro:hover { color: #fff; }
+.hero-replay { position: absolute; left: calc(50% + 72px); top: 50%; transform: translateY(-50%); font-size: 10px; color: #a2a2a2; gap: 8px; padding: 10px 12px; border: 1px solid #333; border-radius: 5px; background: #0b0b0b; white-space: nowrap; }
+.hero-replay:hover { background: #151515; border-color: #777; }
+.hero-replay .icon { width: 13px; height: 13px; }
 
 /* No scroll locks or input trap; CSS dismisses the overlay if its controller fails. */
 .site-intro { display: none; position: fixed; inset: 0; z-index: 80; background: #070707; place-items: center; overflow: hidden; pointer-events: none; }
-.intro-pending .site-intro { display: grid; animation: intro-exit .55s var(--motion-ease) 1.65s forwards; }
+.intro-pending .site-intro { display: grid; animation: intro-exit .6s var(--motion-ease) 2.7s forwards; }
 .intro-grid { position: absolute; inset: 0; background-image: linear-gradient(#ffffff09 1px, transparent 1px), linear-gradient(90deg, #ffffff09 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at center, #000, transparent 65%); }
 .intro-center { position: relative; display: flex; flex-direction: column; align-items: center; }
-.intro-frame { position: absolute; width: 186px; height: 186px; top: -30px; animation: intro-frame 1.3s var(--motion-ease) both; }
+.intro-frame { position: absolute; width: 240px; height: 240px; top: -42px; animation: intro-frame 1.6s var(--motion-ease) both; }
 .intro-frame span { width: 15px; height: 15px; position: absolute; border-color: #626262; border-style: solid; border-width: 0; }
 .intro-frame span:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
 .intro-frame span:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
 .intro-frame span:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
 .intro-frame span:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
-.intro-logo-wrap { overflow: hidden; padding: 8px 16px; }
-.intro-logo { display: block; width: 76px; height: 94px; object-fit: contain; animation: intro-mark 1s var(--motion-ease) both; }
-.intro-wordmark { font-size: 22px; font-weight: 500; letter-spacing: .28em; padding-left: .28em; margin-top: 51px; animation: intro-type .8s var(--motion-ease) .3s both; }
-.intro-caption { color: #777; font: 8px/1.5 Consolas, monospace; letter-spacing: .16em; margin-top: 16px; animation: intro-type .7s var(--motion-ease) .5s both; }
+.intro-logo-wrap { padding: 8px 16px; }
+.intro-logo { display: block; width: 112px; height: 138px; overflow: visible; animation: intro-mark 1.5s var(--motion-ease) both; }
+.intro-outline { fill: none; stroke: #eee; stroke-width: 3; stroke-dasharray: 1; animation: intro-draw 1.6s var(--motion-ease) .1s both; }
+.intro-fill { fill: #fff; animation: intro-fill 1s ease .8s both; }
+.intro-wordmark { font-size: 26px; font-weight: 500; letter-spacing: .28em; padding-left: .28em; margin-top: 60px; animation: intro-type 1s var(--motion-ease) .65s both; }
+.intro-caption { color: #999; font: 9px/1.5 Consolas, monospace; letter-spacing: .16em; margin-top: 16px; animation: intro-type .9s var(--motion-ease) .95s both; }
 .intro-skip { position: absolute; bottom: 32px; right: 40px; pointer-events: auto; display: flex; align-items: center; gap: 20px; border: 1px solid #333; border-radius: 5px; background: #0d0d0d; padding: 10px 14px; font-size: 11px; color: #aaa; }
 .intro-skip .icon { width: 14px; height: 14px; }
 .intro-skip:hover { color: #fff; border-color: #666; }
-@keyframes intro-mark { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
-@keyframes intro-type { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes intro-mark { from { opacity: .75; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes intro-draw { from { stroke-dashoffset: 1; opacity: 1; } 75% { opacity: 1; } to { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes intro-fill { from { opacity: .55; } to { opacity: 1; } }
+@keyframes intro-type { from { opacity: .4; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes intro-frame { from { opacity: 0; transform: scale(1.18); } 55% { opacity: .8; } to { opacity: .4; transform: scale(1); } }
 @keyframes intro-exit { to { opacity: 0; visibility: hidden; } }
 @keyframes circuit-pass { 0% { opacity: 0; stroke-dashoffset: 1; } 25% { opacity: .8; } 100% { opacity: 0; stroke-dashoffset: 0; } }
@@ -125,11 +132,27 @@ body { background: #080808; }
   .dw-caption { gap: 12px; }
   .toolkit-strip { padding-inline: 16px; }
   .intro-skip { right: 20px; bottom: 24px; }
+  .hero-replay { left: calc(50% + 57px); padding: 10px; }
+  .hero-replay span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .site-footer>div { flex-wrap: wrap; gap: 17px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .intro-pending .site-intro { display: none; }
-  .replay-intro { display: none; }
+  /* Keep the introduction visible, using only a gentle opacity reveal. */
+  .intro-pending .site-intro { display: grid; animation: intro-exit .3s linear 2.7s forwards !important; }
+  .intro-fill { animation: intro-fill .5s ease .15s both !important; }
+  .intro-outline { opacity: 0; }
+  .intro-frame { opacity: .4; }
   .hero-copy .muted-word { background: none; color: #aaa; }
   .button:hover, .text-link:hover .icon, .nav-project:hover .icon, .feature:hover .feature-top .icon, .approach-visual:hover .orbit, .approach-visual:hover .orbit-mark, .closing-arrow:hover { transform: none; }
 }
+
+/* Explicit replay is the visitor's opt-in to the full motion sequence. */
+.intro-full-motion .site-intro { animation: intro-exit .6s var(--motion-ease) 2.7s forwards !important; }
+.intro-full-motion .intro-logo { animation: intro-mark 1.5s var(--motion-ease) both !important; }
+.intro-full-motion .intro-outline { animation: intro-draw 1.6s var(--motion-ease) .1s both !important; }
+.intro-full-motion .intro-fill { animation: intro-fill 1s ease .8s both !important; }
+.intro-full-motion .intro-frame { animation: intro-frame 1.6s var(--motion-ease) both !important; }
+.intro-full-motion .intro-wordmark { animation: intro-type 1s var(--motion-ease) .65s both !important; }
+.intro-full-motion .intro-caption { animation: intro-type .9s var(--motion-ease) .95s both !important; }
+.intro-ready .intro-logo, .intro-ready .intro-fill, .intro-ready .intro-wordmark, .intro-ready .intro-caption { animation: none !important; opacity: 1; transform: none; }
+.intro-ready .intro-outline { animation: none !important; opacity: 0; }

@@ -4,17 +4,20 @@
   const root = document.documentElement;
   const intro = document.querySelector('#site-intro');
   const skip = intro.querySelector('.intro-skip');
-  const replay = document.querySelector('.replay-intro');
+  const replays = document.querySelectorAll('.replay-intro');
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Set();
   let introTimer;
+  let introRevealTimer;
   let observer;
   let returnFocus;
+  let waitingForVisibility = false;
 
   function finishIntro() {
     const hadFocus = intro.contains(document.activeElement);
     clearTimeout(introTimer);
-    root.classList.remove('intro-pending');
+    clearTimeout(introRevealTimer);
+    root.classList.remove('intro-pending', 'intro-full-motion', 'intro-ready');
     intro.setAttribute('aria-hidden', 'true');
     skip.tabIndex = -1;
     // Skipping must reveal the page immediately, including delayed hero entrances.
@@ -24,9 +27,18 @@
   }
 
   function startIntro(replaying = false) {
-    if (preference.matches || document.hidden) return;
+    if (document.hidden) {
+      waitingForVisibility = true;
+      root.classList.remove('intro-pending');
+      return;
+    }
+    waitingForVisibility = false;
     clearTimeout(introTimer);
-    root.classList.remove('intro-pending');
+    clearTimeout(introRevealTimer);
+    root.classList.remove('intro-pending', 'intro-ready');
+    root.classList.remove('intro-full-motion');
+    // A deliberate replay opts into the full sequence without changing OS settings.
+    if (replaying) root.classList.add('intro-full-motion');
     void intro.offsetWidth;
     root.classList.add('intro-pending');
     intro.setAttribute('aria-hidden', 'false');
@@ -35,12 +47,13 @@
       returnFocus = document.activeElement;
       skip.focus({ preventScroll: true });
     }
-    try { sessionStorage.setItem('palantir.intro.v1', 'seen'); } catch { /* Optional persistence. */ }
-    introTimer = setTimeout(finishIntro, 2250);
+    // A visible hold also works when the browser throttles CSS animation timelines.
+    introRevealTimer = setTimeout(() => root.classList.add('intro-ready'), 1800);
+    introTimer = setTimeout(finishIntro, 3400);
   }
 
   skip.addEventListener('click', finishIntro);
-  replay.addEventListener('click', () => startIntro(true));
+  replays.forEach(replay => replay.addEventListener('click', () => startIntro(true)));
   document.addEventListener('keydown', event => {
     if (!root.classList.contains('intro-pending')) return;
     if (event.key === 'Escape' || event.key === 'Tab') finishIntro();
@@ -48,6 +61,7 @@
   document.querySelector('.skip-link').addEventListener('focus', finishIntro);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) finishIntro();
+    else if (waitingForVisibility) startIntro();
   });
   window.addEventListener('pagehide', finishIntro);
   intro.addEventListener('animationend', event => {
@@ -76,7 +90,7 @@
   function setupReveals() {
     if (preference.matches) return;
     root.classList.add('motion-enabled');
-    const introDelay = root.classList.contains('intro-pending') ? 1500 : 0;
+    const introDelay = root.classList.contains('intro-pending') ? 2700 : 0;
     // Deep links, history restoration and keyboard navigation keep immediate content.
     if (!location.hash && window.scrollY < 40) {
       document.querySelectorAll('.hero-copy > *').forEach((element, index) => reveal(element, introDelay + index * 65));
@@ -96,9 +110,8 @@
 
   const updatePreference = () => {
     cancelReveals();
-    replay.hidden = preference.matches;
-    if (preference.matches) finishIntro();
-    else setupReveals();
+    root.classList.remove('intro-full-motion');
+    if (!preference.matches) setupReveals();
   };
   if (preference.addEventListener) preference.addEventListener('change', updatePreference);
   else preference.addListener(updatePreference);
@@ -112,7 +125,7 @@
     running.forEach(animation => animation.cancel());
   });
 
-  replay.hidden = preference.matches;
+  replays.forEach(replay => { replay.hidden = false; });
   if (root.classList.contains('intro-pending')) startIntro();
   setupReveals();
 })();

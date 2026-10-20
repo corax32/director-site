@@ -10,20 +10,20 @@
   <meta property="og:type" content="website">
   <title>Palantir — Your game. Your direction.</title>
   <script>
-    // Opt in before first paint. A failed script or blocked storage never hides content.
+    // Show the logo on homepage loads; section links and history keep their position.
     try {
-      const returning = sessionStorage.getItem('palantir.intro.v1') === 'seen';
       const backNavigation = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
-      if (!returning && !backNavigation && !location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const requested = new URLSearchParams(location.search).get('intro') === '1';
+      if (requested || (!backNavigation && !location.hash)) {
         document.documentElement.classList.add('intro-pending');
       }
-    } catch { /* Optional persistence. */ }
+    } catch { /* The website remains usable without the intro. */ }
   </script>
   <link rel="icon" href="favicon.svg?v=20261020-official-mark" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css?v=20261020-official-mark">
   <link rel="stylesheet" href="palantir-preview.css?v=20261020-official-mark">
-  <link rel="stylesheet" href="motion.css?v=20261020-intro">
-  <script src="motion.js?v=20261020-intro" defer></script>
+  <link rel="stylesheet" href="motion.css?v=20261020-intro-v2">
+  <script src="motion.js?v=20261020-intro-v2" defer></script>
   <script src="app.js?v=20261020-palantir" defer></script>
   <script src="palantir-controls.js?v=20261020-palantir" defer></script>
   <script src="palantir-preview.js?v=20261020-palantir" defer></script>
@@ -34,7 +34,9 @@
     <div class="intro-grid" aria-hidden="true"></div>
     <div class="intro-center" aria-hidden="true">
       <div class="intro-frame"><span></span><span></span><span></span><span></span></div>
-      <div class="intro-logo-wrap"><img class="intro-logo" src="assets/palantir-mark.svg" width="401" height="494" alt=""></div>
+      <div class="intro-logo-wrap">
+        <svg class="intro-logo" viewBox="0 0 401 494" aria-hidden="true"><defs><path id="intro-mark-shape" pathLength="1" d="M371.928849,357.289894 L400.39,410.386051 L200.423563,493.218741 L0.39,410.386051 L28.9182766,357.289894 L200.423563,429.315402 L371.928849,357.289894 Z M200.423563,0.72 C306.347375,0.72 392.267832,84.2239436 392.267832,187.194241 C392.267832,290.164538 306.414501,373.668481 200.423563,373.668481 C94.4326246,373.668481 8.51216815,290.164538 8.51216815,187.194241 C8.51216815,84.2239436 94.4326246,0.72 200.423563,0.72 Z M200.423563,58.4478067 C127.122673,58.4478067 67.783858,116.108488 67.783858,187.328491 C67.783858,258.548495 127.189799,316.276301 200.423563,316.276301 C273.657327,316.276301 333.063267,258.61562 333.063267,187.395617 C333.063267,116.175613 273.724452,58.4478067 200.423563,58.4478067 Z"/></defs><use class="intro-outline" href="#intro-mark-shape"/><use class="intro-fill" href="#intro-mark-shape"/></svg>
+      </div>
       <span class="intro-wordmark">PALANTIR</span>
       <span class="intro-caption">YOUR GAME. YOUR DIRECTION.</span>
     </div>
@@ -61,6 +63,7 @@
     <symbol id="icon-monitor" viewBox="0 0 24 24"><path d="M3 4h18v13H3zM8 21h8m-4-4v4"/><path d="M6 7h4"/></symbol>
     <symbol id="icon-minimize" viewBox="0 0 24 24"><path d="M5 16h14"/></symbol>
     <symbol id="icon-maximize" viewBox="0 0 24 24"><path d="M5 5h14v14H5z"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7V5Z"/></symbol>
   </svg>
 
   <header class="site-header">
@@ -77,9 +80,10 @@
   <main id="main">
     <section class="hero section-shell" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <div class="hero-emblem" aria-hidden="true">
-          <svg class="hero-circuit" viewBox="0 0 880 160" fill="none"><g stroke="currentColor"><path d="M0 80h260l60-40h90M880 80H620l-60-40h-90M120 160l90-40h120l40-40h40M760 160l-90-40H550l-40-40h-40M180 0l80 40h60l40 80h50M700 0l-80 40h-60l-40 80h-50"/></g><g class="circuit-pulse" stroke="currentColor"><path pathLength="1" d="M0 80h260l60-40h90M880 80H620l-60-40h-90"/></g><g fill="currentColor"><circle cx="260" cy="80" r="2"/><circle cx="620" cy="80" r="2"/><circle cx="330" cy="120" r="2"/><circle cx="550" cy="120" r="2"/></g></svg>
-          <div class="hero-logo-tile"><img src="assets/palantir-mark.svg" width="401" height="494" alt=""></div>
+        <div class="hero-emblem">
+          <svg class="hero-circuit" viewBox="0 0 880 160" fill="none" aria-hidden="true"><g stroke="currentColor"><path d="M0 80h260l60-40h90M880 80H620l-60-40h-90M120 160l90-40h120l40-40h40M760 160l-90-40H550l-40-40h-40M180 0l80 40h60l40 80h50M700 0l-80 40h-60l-40 80h-50"/></g><g class="circuit-pulse" stroke="currentColor"><path pathLength="1" d="M0 80h260l60-40h90M880 80H620l-60-40h-90"/></g><g fill="currentColor"><circle cx="260" cy="80" r="2"/><circle cx="620" cy="80" r="2"/><circle cx="330" cy="120" r="2"/><circle cx="550" cy="120" r="2"/></g></svg>
+          <div class="hero-logo-tile" aria-hidden="true"><img src="assets/palantir-mark.svg" width="401" height="494" alt=""></div>
+          <button class="replay-intro hero-replay" type="button" aria-label="Replay logo intro" hidden><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-play"/></svg><span>Replay intro</span></button>
         </div>
         <div class="eyebrow"><span class="status-dot"></span> FOR DEEPWOKEN <span class="eyebrow-divider">/</span> IN DEVELOPMENT</div>
         <h1 id="hero-title">Your game.<br>Your <span class="muted-word">direction.</span></h1>
