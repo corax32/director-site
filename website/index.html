@@ -9,15 +9,37 @@
   <meta property="og:description" content="One focused interface for your Deepwoken toolkit. Explore Palantir.">
   <meta property="og:type" content="website">
   <title>Palantir — Your game. Your direction.</title>
+  <script>
+    // Opt in before first paint. A failed script or blocked storage never hides content.
+    try {
+      const returning = sessionStorage.getItem('palantir.intro.v1') === 'seen';
+      const backNavigation = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+      if (!returning && !backNavigation && !location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('intro-pending');
+      }
+    } catch { /* Optional persistence. */ }
+  </script>
   <link rel="icon" href="favicon.svg?v=20261020-official-mark" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css?v=20261020-official-mark">
   <link rel="stylesheet" href="palantir-preview.css?v=20261020-official-mark">
+  <link rel="stylesheet" href="motion.css?v=20261020-intro">
+  <script src="motion.js?v=20261020-intro" defer></script>
   <script src="app.js?v=20261020-palantir" defer></script>
   <script src="palantir-controls.js?v=20261020-palantir" defer></script>
   <script src="palantir-preview.js?v=20261020-palantir" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-intro" id="site-intro" aria-hidden="true">
+    <div class="intro-grid" aria-hidden="true"></div>
+    <div class="intro-center" aria-hidden="true">
+      <div class="intro-frame"><span></span><span></span><span></span><span></span></div>
+      <div class="intro-logo-wrap"><img class="intro-logo" src="assets/palantir-mark.svg" width="401" height="494" alt=""></div>
+      <span class="intro-wordmark">PALANTIR</span>
+      <span class="intro-caption">YOUR GAME. YOUR DIRECTION.</span>
+    </div>
+    <button class="intro-skip" type="button" tabindex="-1">Skip intro <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></button>
+  </div>
   <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="arrow-up-right" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
     <symbol id="arrow-right" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
@@ -55,6 +77,10 @@
   <main id="main">
     <section class="hero section-shell" aria-labelledby="hero-title">
       <div class="hero-copy">
+        <div class="hero-emblem" aria-hidden="true">
+          <svg class="hero-circuit" viewBox="0 0 880 160" fill="none"><g stroke="currentColor"><path d="M0 80h260l60-40h90M880 80H620l-60-40h-90M120 160l90-40h120l40-40h40M760 160l-90-40H550l-40-40h-40M180 0l80 40h60l40 80h50M700 0l-80 40h-60l-40 80h-50"/></g><g class="circuit-pulse" stroke="currentColor"><path pathLength="1" d="M0 80h260l60-40h90M880 80H620l-60-40h-90"/></g><g fill="currentColor"><circle cx="260" cy="80" r="2"/><circle cx="620" cy="80" r="2"/><circle cx="330" cy="120" r="2"/><circle cx="550" cy="120" r="2"/></g></svg>
+          <div class="hero-logo-tile"><img src="assets/palantir-mark.svg" width="401" height="494" alt=""></div>
+        </div>
         <div class="eyebrow"><span class="status-dot"></span> FOR DEEPWOKEN <span class="eyebrow-divider">/</span> IN DEVELOPMENT</div>
         <h1 id="hero-title">Your game.<br>Your <span class="muted-word">direction.</span></h1>
         <p class="hero-description">A focused toolkit. A familiar interface. Defense, visuals, automation, and the details that make a setup yours.</p>
@@ -62,7 +88,7 @@
           <a class="button button-primary" href="#features">Explore Palantir <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-right"/></svg></a>
           <a class="text-link" href="#interface">Try the interface <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-down-right"/></svg></a>
         </div>
-        <div class="hero-footnote"><span class="fine-line"></span> ONE TOOLKIT. YOUR WAY TO PLAY.</div>
+        <div class="hero-footnote"><span class="fine-line"></span> ONE TOOLKIT. YOUR WAY TO PLAY. <span class="fine-line"></span></div>
       </div>
 
       <div class="preview-stage" id="interface">
@@ -118,6 +144,6 @@
     <section class="closing section-shell"><span class="eyebrow">BUILT TO BE YOURS</span><div><h2>Take direction.</h2><a class="closing-arrow" href="#interface" aria-label="Back to the interactive Palantir preview"><svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div><p>Start with a setting. Make it your own.</p></section>
   </main>
   <dialog class="dw-dialog" aria-label="Expanded Palantir menu"><div class="dw-dialog-top"><span>Palantir menu · browser preview</span><button class="dw-close" type="button" autofocus>Close <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></button></div></dialog>
-  <footer class="site-footer section-shell"><a class="brand" href="#" aria-label="Palantir home"><img class="brand-logo" src="assets/palantir-wordmark.svg" width="80" height="20" alt="" aria-hidden="true"></a><span>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</span><div><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#main">Back to top <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div></footer>
+  <footer class="site-footer section-shell"><a class="brand" href="#" aria-label="Palantir home"><img class="brand-logo" src="assets/palantir-wordmark.svg" width="80" height="20" alt="" aria-hidden="true"></a><span>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</span><div><button class="replay-intro" type="button" hidden>Replay intro <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-automation"/></svg></button><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#main">Back to top <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div></footer>
 </body>
 </html>

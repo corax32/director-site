@@ -31,6 +31,7 @@ jobs:
       - name: Check website JavaScript
         run: |
           node --check website/app.js
+          node --check website/motion.js
           node --check website/palantir-controls.js
           node --check website/palantir-preview.js
 

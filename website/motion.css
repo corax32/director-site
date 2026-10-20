@@ -1,0 +1,135 @@
+/* Presentation-only motion. The menu keeps its own layout and interactions. */
+:root { --motion-ease: cubic-bezier(.22, 1, .36, 1); --max: 1200px; }
+html { scroll-padding-top: 100px; }
+body { background: #080808; }
+.site-header {
+  position: sticky; top: 0; z-index: 20; height: 78px;
+  background: #080808ed; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.site-header nav a { transition: color .2s ease; }
+.site-header nav .nav-project { border: 1px solid #353535; border-radius: 5px; padding: 9px 13px; color: #ddd; background: #111; }
+.site-header nav .nav-project:hover { background: #1d1d1d; border-color: #666; }
+.hero {
+  position: relative; isolation: isolate; display: flex; flex-direction: column;
+  gap: 66px; padding-top: 44px; padding-bottom: 72px; min-height: auto;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0 -1px; z-index: -1; pointer-events: none;
+  background-image: linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+  background-size: 80px 80px; mask-image: linear-gradient(transparent, #000 15%, #000 65%, transparent);
+}
+.hero::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-inline: 1px solid #ffffff09; }
+.hero-copy { width: 100%; max-width: 960px; text-align: center; }
+.hero-emblem { position: relative; height: 122px; display: grid; place-items: center; margin-bottom: 20px; }
+.hero-circuit { position: absolute; width: min(880px, 100%); height: 160px; color: #393939; pointer-events: none; }
+.circuit-pulse { color: #bababa; stroke-dasharray: .12 .88; stroke-dashoffset: 1; opacity: 0; }
+.motion-enabled .circuit-pulse { animation: circuit-pass 1.5s ease-out .2s 1 both; }
+.intro-pending .circuit-pulse { animation-delay: 1.65s; }
+.hero-logo-tile {
+  position: relative; display: grid; place-items: center; width: 100px; height: 100px;
+  border: 1px solid #3a3a3a; border-radius: 19px; background: linear-gradient(145deg, #1c1c1c, #090909 70%);
+  box-shadow: inset 0 1px 0 #ffffff14, 0 16px 64px #ffffff0a, 0 0 0 8px #ffffff02;
+}
+.hero-logo-tile img { width: 45px; height: 56px; object-fit: contain; }
+.hero-copy .eyebrow { justify-content: center; font-size: 9px; letter-spacing: 1.5px; }
+.hero-copy h1 { font-size: clamp(54px, 7.1vw, 94px); line-height: 1.02; letter-spacing: -.065em; font-weight: 600; margin: 27px 0 25px; }
+.hero-copy .muted-word { background: linear-gradient(180deg, #eaeaea 10%, #777 100%); color: transparent; background-clip: text; -webkit-background-clip: text; }
+.hero-description { margin-inline: auto; max-width: 530px; font-size: 16px; line-height: 1.8; }
+.hero-actions { justify-content: center; gap: 24px; margin-top: 28px; }
+.button { border: 1px solid #fff1; border-radius: 6px; padding: 14px 21px; transition: transform .25s var(--motion-ease), background .2s, box-shadow .25s; }
+.button:hover { box-shadow: 0 4px 24px #ffffff1c; }
+.text-link .icon, .nav-project .icon { transition: transform .25s var(--motion-ease); }
+.text-link:hover .icon, .nav-project:hover .icon { transform: translate(2px, -2px); }
+.hero-actions .text-link { border: 1px solid #333; padding: 14px 18px; border-radius: 6px; color: #ddd; background: #0c0c0c; }
+.hero-actions .text-link:hover { background: #151515; border-color: #666; }
+.hero-footnote { justify-content: center; margin-top: 28px; font-size: 8px; letter-spacing: 1.3px; color: #777; }
+.fine-line { background: #393939; width: 22px; }
+.preview-stage { max-width: 1060px; scroll-margin-top: 110px; }
+.preview-stage::before { inset: -25px 0; background: radial-gradient(ellipse at 50% 0, #ffffff0b, transparent 70%); }
+.stage-coordinates { margin-bottom: 15px; color: #939393; }
+.palantir-window { border-color: #454545; box-shadow: 0 24px 80px #000b, 0 0 0 6px #ffffff03; }
+.toolkit-strip { background: #0a0a0a; padding-inline: 24px; border-inline: 1px solid var(--line); }
+.section-heading h2, .approach h2 { font-weight: 500; letter-spacing: -.045em; }
+.feature { position: relative; background: #0b0b0b; transition: background .25s, box-shadow .25s; }
+.feature::before { content: ''; position: absolute; left: 26px; top: -1px; right: 26px; height: 1px; background: linear-gradient(90deg, transparent, #aaa, transparent); opacity: 0; transition: opacity .25s; pointer-events: none; }
+.feature:hover { background: #111; box-shadow: inset 0 0 50px #ffffff02; }
+.feature:hover::before { opacity: 1; }
+.feature-top .icon { transition: transform .35s var(--motion-ease), color .2s; }
+.feature:hover .feature-top .icon { color: #fff; transform: translateY(-3px); }
+.approach-visual .orbit { transition: border-color .4s, transform .8s var(--motion-ease); }
+.approach-visual:hover .orbit-two { transform: scale(1.04); border-color: #666; }
+.approach-visual:hover .orbit-three { transform: rotate(20deg); }
+.approach-visual .orbit-mark { transition: transform .7s var(--motion-ease); }
+.approach-visual:hover .orbit-mark { transform: translateY(-4px); }
+.closing { position: relative; overflow: hidden; }
+.closing::before { content: ''; position: absolute; width: 480px; height: 250px; background: radial-gradient(ellipse, #ffffff09, transparent 70%); top: 30px; right: -120px; pointer-events: none; }
+.closing-arrow { position: relative; transition: background .25s, color .25s, transform .4s var(--motion-ease); }
+.closing-arrow:hover { transform: rotate(5deg); }
+.replay-intro { padding: 0; border: 0; background: none; font: inherit; color: inherit; display: inline-flex; align-items: center; gap: 7px; }
+.replay-intro:hover { color: #fff; }
+
+/* No scroll locks or input trap; CSS dismisses the overlay if its controller fails. */
+.site-intro { display: none; position: fixed; inset: 0; z-index: 80; background: #070707; place-items: center; overflow: hidden; pointer-events: none; }
+.intro-pending .site-intro { display: grid; animation: intro-exit .55s var(--motion-ease) 1.65s forwards; }
+.intro-grid { position: absolute; inset: 0; background-image: linear-gradient(#ffffff09 1px, transparent 1px), linear-gradient(90deg, #ffffff09 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at center, #000, transparent 65%); }
+.intro-center { position: relative; display: flex; flex-direction: column; align-items: center; }
+.intro-frame { position: absolute; width: 186px; height: 186px; top: -30px; animation: intro-frame 1.3s var(--motion-ease) both; }
+.intro-frame span { width: 15px; height: 15px; position: absolute; border-color: #626262; border-style: solid; border-width: 0; }
+.intro-frame span:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+.intro-frame span:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+.intro-frame span:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+.intro-frame span:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+.intro-logo-wrap { overflow: hidden; padding: 8px 16px; }
+.intro-logo { display: block; width: 76px; height: 94px; object-fit: contain; animation: intro-mark 1s var(--motion-ease) both; }
+.intro-wordmark { font-size: 22px; font-weight: 500; letter-spacing: .28em; padding-left: .28em; margin-top: 51px; animation: intro-type .8s var(--motion-ease) .3s both; }
+.intro-caption { color: #777; font: 8px/1.5 Consolas, monospace; letter-spacing: .16em; margin-top: 16px; animation: intro-type .7s var(--motion-ease) .5s both; }
+.intro-skip { position: absolute; bottom: 32px; right: 40px; pointer-events: auto; display: flex; align-items: center; gap: 20px; border: 1px solid #333; border-radius: 5px; background: #0d0d0d; padding: 10px 14px; font-size: 11px; color: #aaa; }
+.intro-skip .icon { width: 14px; height: 14px; }
+.intro-skip:hover { color: #fff; border-color: #666; }
+@keyframes intro-mark { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+@keyframes intro-type { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes intro-frame { from { opacity: 0; transform: scale(1.18); } 55% { opacity: .8; } to { opacity: .4; transform: scale(1); } }
+@keyframes intro-exit { to { opacity: 0; visibility: hidden; } }
+@keyframes circuit-pass { 0% { opacity: 0; stroke-dashoffset: 1; } 25% { opacity: .8; } 100% { opacity: 0; stroke-dashoffset: 0; } }
+
+@media (max-width: 800px) {
+  .hero { padding-top: 25px; gap: 47px; }
+  .hero-copy { max-width: none; }
+  .hero-copy h1 { font-size: clamp(52px, 10vw, 80px); }
+  .hero-description { font-size: 15px; max-width: 490px; }
+  .hero-emblem { height: 112px; }
+  .hero-logo-tile { width: 86px; height: 86px; border-radius: 17px; }
+  .hero-logo-tile img { width: 39px; height: 49px; }
+  .hero-footnote { display: flex; }
+  .toolkit-strip { padding-inline: 20px; }
+  .site-header nav { gap: 20px; }
+}
+@media (max-width: 520px) {
+  .site-header { position: sticky; height: 68px; }
+  .site-header nav { top: 61px; }
+  .site-header nav .nav-project { margin-top: 8px; padding: 12px; }
+  .hero { gap: 37px; padding-top: 18px; padding-bottom: 47px; }
+  .hero::before { background-size: 48px 48px; }
+  .hero-emblem { height: 108px; margin-bottom: 19px; }
+  .hero-circuit { width: calc(100% + 38px); height: 160px; }
+  .hero-copy .eyebrow { font-size: 7px; letter-spacing: 1px; gap: 6px; }
+  .hero-copy h1 { font-size: clamp(43px, 12.4vw, 63px); margin: 22px 0 21px; letter-spacing: -.065em; }
+  .hero-description { font-size: 13px; line-height: 1.85; max-width: 320px; }
+  .hero-actions { gap: 10px; margin-top: 24px; }
+  .hero-actions .button, .hero-actions .text-link { font-size: 10px; padding: 12px; gap: 10px; }
+  .hero-actions .icon { width: 13px; height: 13px; }
+  .hero-footnote { font-size: 6px; letter-spacing: .8px; gap: 8px; margin-top: 23px; }
+  .fine-line { width: 14px; }
+  .stage-coordinates { font-size: 6px; letter-spacing: .7px; }
+  .palantir-window { box-shadow: 0 16px 45px #000b, 0 0 0 3px #ffffff03; }
+  .dw-caption { gap: 12px; }
+  .toolkit-strip { padding-inline: 16px; }
+  .intro-skip { right: 20px; bottom: 24px; }
+  .site-footer>div { flex-wrap: wrap; gap: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-pending .site-intro { display: none; }
+  .replay-intro { display: none; }
+  .hero-copy .muted-word { background: none; color: #aaa; }
+  .button:hover, .text-link:hover .icon, .nav-project:hover .icon, .feature:hover .feature-top .icon, .approach-visual:hover .orbit, .approach-visual:hover .orbit-mark, .closing-arrow:hover { transform: none; }
+}
