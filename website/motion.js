@@ -4,29 +4,26 @@
   const root = document.documentElement;
   const intro = document.querySelector('#site-intro');
   const skip = intro.querySelector('.intro-skip');
-  const replays = document.querySelectorAll('.replay-intro');
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Set();
   let introTimer;
   let introRevealTimer;
   let observer;
-  let returnFocus;
   let waitingForVisibility = false;
 
   function finishIntro() {
     const hadFocus = intro.contains(document.activeElement);
     clearTimeout(introTimer);
     clearTimeout(introRevealTimer);
-    root.classList.remove('intro-pending', 'intro-full-motion', 'intro-ready');
+    root.classList.remove('intro-pending', 'intro-ready');
     intro.setAttribute('aria-hidden', 'true');
     skip.tabIndex = -1;
     // Skipping must reveal the page immediately, including delayed hero entrances.
     running.forEach(animation => animation.cancel());
-    if (hadFocus) (returnFocus || document.querySelector('.site-header .brand')).focus({ preventScroll: true });
-    returnFocus = null;
+    if (hadFocus) document.querySelector('.site-header .brand').focus({ preventScroll: true });
   }
 
-  function startIntro(replaying = false) {
+  function startIntro() {
     if (document.hidden) {
       waitingForVisibility = true;
       root.classList.remove('intro-pending');
@@ -36,24 +33,16 @@
     clearTimeout(introTimer);
     clearTimeout(introRevealTimer);
     root.classList.remove('intro-pending', 'intro-ready');
-    root.classList.remove('intro-full-motion');
-    // A deliberate replay opts into the full sequence without changing OS settings.
-    if (replaying) root.classList.add('intro-full-motion');
     void intro.offsetWidth;
     root.classList.add('intro-pending');
     intro.setAttribute('aria-hidden', 'false');
     skip.tabIndex = 0;
-    if (replaying) {
-      returnFocus = document.activeElement;
-      skip.focus({ preventScroll: true });
-    }
     // A visible hold also works when the browser throttles CSS animation timelines.
     introRevealTimer = setTimeout(() => root.classList.add('intro-ready'), 1800);
     introTimer = setTimeout(finishIntro, 3400);
   }
 
   skip.addEventListener('click', finishIntro);
-  replays.forEach(replay => replay.addEventListener('click', () => startIntro(true)));
   document.addEventListener('keydown', event => {
     if (!root.classList.contains('intro-pending')) return;
     if (event.key === 'Escape' || event.key === 'Tab') finishIntro();
@@ -110,7 +99,6 @@
 
   const updatePreference = () => {
     cancelReveals();
-    root.classList.remove('intro-full-motion');
     if (!preference.matches) setupReveals();
   };
   if (preference.addEventListener) preference.addEventListener('change', updatePreference);
@@ -125,7 +113,6 @@
     running.forEach(animation => animation.cancel());
   });
 
-  replays.forEach(replay => { replay.hidden = false; });
   if (root.classList.contains('intro-pending')) startIntro();
   setupReveals();
 })();
