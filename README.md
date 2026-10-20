@@ -2,7 +2,7 @@
 
 The public product website for Palantir.
 
-**Website:** https://corax32.github.io/palantir-site/
+**Website:** https://corax32.github.io/palantir-z/
 
 This repository contains only the website and its deployment workflow. The Palantir application's source is maintained separately in a private repository. The browser-only menu replica follows Palantir's Lua UI structure; its controls change the browser preview and do not connect to the game.
 
