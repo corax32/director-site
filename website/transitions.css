@@ -14,7 +14,7 @@ html.transition-jump { scroll-behavior: auto !important; }
 #page-transition .transition-curtain {
   position: absolute;
   inset: -20vmax;
-  background: #303332;
+  background: #202020;
   transform: translate3d(0, 105%, 0) rotate(-8deg);
 }
 
