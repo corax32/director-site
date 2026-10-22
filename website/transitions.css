@@ -1,0 +1,79 @@
+/* Section navigation: a brief angled curtain, below the first-load intro. */
+html.transition-jump { scroll-behavior: auto !important; }
+
+#page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  isolation: isolate;
+}
+
+#page-transition .transition-curtain {
+  position: absolute;
+  inset: -20vmax;
+  background: #303332;
+  transform: translate3d(0, 105%, 0) rotate(-8deg);
+}
+
+#page-transition .transition-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+#page-transition .transition-mark img {
+  display: block;
+  width: clamp(48px, 7vw, 76px);
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+#page-transition:is([data-phase="entering"], [data-phase="covered"], [data-phase="leaving"]) {
+  visibility: visible;
+  /* Unchanged across phases: a stalled controller cannot conceal the page. */
+  animation: section-transition-failsafe 1500ms steps(1, end) forwards;
+}
+
+#page-transition:is([data-phase="entering"], [data-phase="covered"], [data-phase="leaving"]) .transition-curtain {
+  will-change: transform;
+}
+
+#page-transition[data-phase="entering"] .transition-curtain {
+  animation: section-curtain-enter 300ms cubic-bezier(.65, 0, .35, 1) both;
+}
+
+#page-transition[data-phase="covered"] .transition-curtain {
+  transform: translate3d(0, 0, 0) rotate(-8deg);
+}
+
+#page-transition[data-phase="covered"] .transition-mark { opacity: 1; }
+
+#page-transition[data-phase="leaving"] .transition-curtain {
+  animation: section-curtain-leave 400ms cubic-bezier(.65, 0, .35, 1) both;
+}
+
+@keyframes section-curtain-enter {
+  from { transform: translate3d(0, 105%, 0) rotate(-8deg); }
+  to { transform: translate3d(0, 0, 0) rotate(-8deg); }
+}
+
+@keyframes section-curtain-leave {
+  from { transform: translate3d(0, 0, 0) rotate(-8deg); }
+  to { transform: translate3d(0, -105%, 0) rotate(-8deg); }
+}
+
+@keyframes section-transition-failsafe {
+  from { visibility: visible; }
+  to { visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-transition { display: none !important; animation: none !important; }
+  #page-transition * { animation: none !important; transition: none !important; }
+}

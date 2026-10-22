@@ -26,13 +26,19 @@
   <link rel="preload" href="assets/fonts/AllianceNo1-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/AllianceNo2-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="brand.css?v=20261022-alliance">
+  <link rel="stylesheet" href="transitions.css?v=20261022-panel">
   <script src="motion.js?v=20261022-alliance" defer></script>
   <script src="app.js?v=20261020-palantir" defer></script>
+  <script src="transitions.js?v=20261022-panel" defer></script>
   <script src="palantir-controls.js?v=20261020-palantir" defer></script>
   <script src="palantir-preview.js?v=20261020-palantir" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div id="page-transition" data-phase="idle" aria-hidden="true" inert>
+    <div class="transition-curtain"></div>
+    <div class="transition-mark"><img src="assets/palantir-mark.svg" width="401" height="494" alt=""></div>
+  </div>
   <div class="site-intro" id="site-intro" aria-hidden="true">
     <div class="intro-grid" aria-hidden="true"></div>
     <div class="intro-center" aria-hidden="true">
