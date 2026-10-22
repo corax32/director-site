@@ -94,6 +94,91 @@
 }
 .intro-caption { font-size: 10px; }
 
+/* Editorial, instrument-like framing for the independent Palantir project. */
+.site-header nav {
+  font-size: 12px;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.hero-actions .button,
+.hero-actions .text-link,
+.site-header nav .nav-project,
+.menu-toggle,
+.build-guide,
+.code-block {
+  border-radius: 1px;
+}
+.hero-logo-tile {
+  border-radius: 1px;
+  border-color: #505050;
+  background: #0c0c0c;
+  box-shadow: 0 0 0 7px #ffffff02;
+}
+.hero-logo-tile::before,
+.hero-logo-tile::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-color: #969696;
+  border-style: solid;
+  pointer-events: none;
+}
+.hero-logo-tile::before {
+  top: -5px;
+  left: -5px;
+  border-width: 1px 0 0 1px;
+}
+.hero-logo-tile::after {
+  right: -5px;
+  bottom: -5px;
+  border-width: 0 1px 1px 0;
+}
+.hero::before { opacity: .65; }
+.hero-copy .status-dot {
+  width: 7px;
+  height: 7px;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  background: transparent;
+}
+.hero-footnote,
+.stage-coordinates,
+.feature-detail,
+.feature-index,
+.step-number,
+.orbit-label {
+  font-variant-numeric: tabular-nums;
+}
+.hero-footnote { color: #a1a1a1; letter-spacing: .12em; }
+.hero-footnote .fine-line { width: 32px; }
+.stage-coordinates {
+  padding-block: 11px;
+  border-top: 1px solid #363636;
+  margin-bottom: 7px;
+}
+.toolkit-strip { background: #090909; }
+.strip-heading { color: #b0b0b0; letter-spacing: .1em; }
+.feature-index {
+  display: inline-block;
+  min-width: 34px;
+  padding: 3px 7px;
+  border: 1px solid #353535;
+  text-align: center;
+  color: #b0b0b0;
+}
+.feature-detail {
+  padding-top: 14px;
+  border-top: 1px solid #242424;
+  color: #a3a3a3;
+}
+.step-number {
+  border-radius: 1px;
+  border-color: #575757;
+  color: #dedede;
+}
+.closing::before { background: none; }
+
 @media (min-width: 35em) {
   .hero-copy h1, .section-heading h2, .approach h2, .faq h2, .closing h2 {
     font-family: var(--display-font);
@@ -105,7 +190,7 @@
 }
 @media (max-width: 520px) {
   .brand-logo { width: 122px; height: auto; }
-  .hero-copy h1 { font-size: clamp(42px, 11.5vw, 58px); }
+  .hero-copy h1 { font-size: clamp(36px, 10.7vw, 54px); }
   .hero-copy .eyebrow { font-size: 8px; letter-spacing: .06em; }
   .hero-description { font-size: 16px; line-height: 1.5; max-width: 330px; }
   .hero-actions .button, .hero-actions .text-link { font-size: 12px; }
@@ -113,4 +198,6 @@
   .section-heading > p { font-size: 14px; }
   .closing h2 { font-size: clamp(36px, 9.7vw, 50px); }
   .intro-wordmark { width: 166px; }
+  .hero-footnote { letter-spacing: .08em; }
+  .hero-footnote .fine-line { width: 16px; }
 }
