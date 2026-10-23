@@ -10,6 +10,7 @@
   let introRevealTimer;
   let observer;
   let waitingForVisibility = false;
+  let pointerFocus = false;
 
   function finishIntro(natural = false) {
     const hadFocus = intro.contains(document.activeElement);
@@ -44,7 +45,9 @@
   }
 
   skip.addEventListener('click', () => finishIntro());
+  document.addEventListener('pointerdown', () => { pointerFocus = true; }, {passive: true});
   document.addEventListener('keydown', event => {
+    pointerFocus = false;
     if (!root.classList.contains('intro-pending')) return;
     if (event.key === 'Escape' || event.key === 'Tab') finishIntro();
   });
@@ -92,7 +95,8 @@
         observer.unobserve(entry.target);
         const siblings = entry.target.parentElement.children;
         const index = Array.prototype.indexOf.call(siblings, entry.target);
-        reveal(entry.target, Math.min(index % 3, 2) * 100);
+        const introDelay = root.classList.contains('intro-pending') ? 3300 : 0;
+        reveal(entry.target, introDelay + Math.min(index % 3, 2) * 100);
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -16px 0px' });
     document.querySelectorAll('.preview-stage, .section-heading, .feature, .approach-visual, .approach-copy, .guide-step, .build-guide, .faq > div, .closing').forEach(element => observer.observe(element));
@@ -105,6 +109,9 @@
   if (preference.addEventListener) preference.addEventListener('change', updatePreference);
   else preference.addListener(updatePreference);
   document.addEventListener('focusin', event => {
+    // Cancelling a transform between pointerdown and click moves the target
+    // away from the pointer. Keyboard focus still reveals its target at once.
+    if (pointerFocus) return;
     running.forEach(animation => {
       if (animation.effect?.target?.contains(event.target)) animation.cancel();
     });
@@ -112,6 +119,28 @@
   window.addEventListener('hashchange', () => {
     finishIntro();
     running.forEach(animation => animation.cancel());
+  });
+
+  // Route entrances run after the navigation curtain clears. Revisit animations
+  // do not depend on an IntersectionObserver that has already seen the content.
+  window.addEventListener('palantir:viewchange', event => {
+    if (event.detail?.initial) return;
+    running.forEach(animation => animation.cancel());
+    running.clear();
+    if (!event.detail?.animate || preference.matches || document.hidden) return;
+    const selector = '.hero-copy > *, .introduction > *, .section-heading, .feature, .preview-stage, .approach-visual, .approach-copy, .guide-step, .build-guide, .faq > div, .closing';
+    const incoming = [];
+    document.querySelectorAll('[data-site-view]').forEach(panel => {
+      if (panel.hidden || panel.getAttribute('data-site-view') !== event.detail.view) return;
+      if (panel.matches(selector)) incoming.push(panel);
+      panel.querySelectorAll(selector).forEach(element => incoming.push(element));
+    });
+    incoming.forEach((element, index) => {
+      const rect = element.getBoundingClientRect?.();
+      if (rect && rect.top > window.innerHeight) return;
+      observer?.unobserve(element);
+      reveal(element, Math.min(index, 3) * 70);
+    });
   });
 
   if (root.classList.contains('intro-pending')) startIntro();

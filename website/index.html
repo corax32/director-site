@@ -24,17 +24,17 @@
   </script>
   <link rel="icon" href="favicon.svg?v=20261020-official-mark" type="image/svg+xml">
   <link rel="stylesheet" href="palantir-preview.css?v=20261022-isolated">
-  <link rel="stylesheet" href="styles.css?v=20261022-black">
-  <link rel="stylesheet" href="motion.css?v=20261022-editorial">
+  <link rel="stylesheet" href="styles.css?v=20261022-tabs">
+  <link rel="stylesheet" href="motion.css?v=20261022-tabs">
   <link rel="preload" href="assets/fonts/AllianceNo1-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/AllianceNo2-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="brand.css?v=20261022-editorial">
-  <link rel="stylesheet" href="transitions.css?v=20261022-black">
-  <script src="motion.js?v=20261022-alliance" defer></script>
-  <script src="app.js?v=20261022-navigation" defer></script>
-  <script src="transitions.js?v=20261022-panel" defer></script>
+  <link rel="stylesheet" href="transitions.css?v=20261022-tabs">
+  <script src="motion.js?v=20261022-tabs" defer></script>
+  <script src="app.js?v=20261022-tabs" defer></script>
+  <script src="transitions.js?v=20261022-tabs" defer></script>
   <script src="palantir-controls.js?v=20261020-palantir" defer></script>
-  <script src="palantir-preview.js?v=20261020-palantir" defer></script>
+  <script src="palantir-preview.js?v=20261022-tabs" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -79,19 +79,19 @@
 
   <header class="site-header">
     <a class="brand" href="#main" aria-label="Palantir home"><img class="brand-logo" src="assets/palantir-wordmark.svg" width="83" height="21" alt="" aria-hidden="true"></a>
-    <div class="header-shortcuts"><a href="#features">Capabilities</a><a href="#approach">Approach</a></div>
+    <div class="header-shortcuts" role="navigation" aria-label="Page tabs"><a href="#main">Home</a><a href="#features">Capabilities</a><a href="#interface">Console</a><a href="#approach">Approach</a><a href="#guide">Access</a><a href="#questions">Briefing</a></div>
     <div class="header-actions">
       <a class="header-start" href="#interface">Open console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
     </div>
     <nav id="navigation" aria-label="Main navigation">
-      <div class="nav-main"><span class="nav-label">NAVIGATION</span><a href="#features">Capabilities <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#interface">The console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#approach">Our approach <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#guide">Access <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
+      <div class="nav-main"><span class="nav-label">NAVIGATION</span><a href="#main">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#features">Capabilities <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#interface">The console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#approach">Our approach <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#guide">Access <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
       <div class="nav-aside"><span class="nav-label">PALANTIR / DEEPWOKEN</span><p>Clarity.<br>Control.<br>Precision.</p><a href="#questions">Project briefing <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-right"/></svg></a><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
     </nav>
   </header>
 
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero" data-site-view="home" aria-labelledby="hero-title">
       <img class="hero-field" src="assets/field-surface.svg?v=20261022-black" width="1920" height="1080" alt="" fetchpriority="high" aria-hidden="true">
       <div class="hero-copy section-shell">
         <div class="eyebrow">PALANTIR SYSTEMS <span>/</span> DEEPWOKEN</div>
@@ -109,13 +109,13 @@
       <div class="hero-rail section-shell"><span>CLARITY. CONTROL. PRECISION.</span><span>01 — OVERVIEW</span></div>
     </section>
 
-    <section class="introduction section-shell" aria-labelledby="introduction-title">
+    <section class="introduction section-shell" data-site-view="home" aria-labelledby="introduction-title">
       <div class="eyebrow">BUILT AROUND YOUR SESSION</div>
       <h2 id="introduction-title">A clearer view.<br>A more deliberate response.</h2>
       <div class="introduction-bottom"><p>Connect what you see with how you act. Palantir brings the tools for your Deepwoken session into one configurable system.</p><a class="text-link" href="#interface">Explore the console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
     </section>
 
-    <section id="features" class="features" aria-labelledby="features-title">
+    <section id="features" class="features" data-site-view="features" aria-labelledby="features-title">
       <div class="section-shell">
         <div class="section-heading"><h2 id="features-title">Your field kit.</h2><span class="eyebrow">SIX SYSTEMS. ONE INTERFACE.</span></div>
         <div class="feature-grid">
@@ -159,7 +159,7 @@
       </div>
     </section>
 
-    <section class="console-section" aria-labelledby="console-title">
+    <section class="console-section" data-site-view="interface" aria-labelledby="console-title">
       <div class="section-shell">
         <div class="section-heading"><div><span class="eyebrow">THE INTERFACE</span><h2 id="console-title">Control, in context.</h2></div><p>Explore the working browser demonstration.<br>Search the settings. Examine the controls.</p></div>
       <div class="preview-stage" id="interface">
@@ -187,21 +187,21 @@
       </div>
     </section>
 
-    <section id="approach" class="approach" aria-labelledby="approach-title">
+    <section id="approach" class="approach" data-site-view="approach" aria-labelledby="approach-title">
       <div class="approach-visual" aria-hidden="true"><img src="assets/field-surface.svg?v=20261022-black" width="1920" height="1080" alt="" loading="lazy"><div class="approach-mark"><img src="assets/palantir-mark.svg" width="401" height="494" alt=""></div><span>OBSERVE / ASSESS / ACT</span></div>
       <div class="approach-copy"><span class="eyebrow">OUR APPROACH</span><h2 id="approach-title">Precision begins<br>with clarity.</h2><p>A clear view of the environment. Explicit controls for how you respond.</p><div class="approach-row"><span>/01</span><div><h3>Decisions stay in your hands.</h3><p>Choose enabled features, set response filters, and keep selected moves manual.</p></div></div><div class="approach-row"><span>/02</span><div><h3>Behavior you can inspect.</h3><p>Review status reports and diagnostic traces. Refine your configuration as conditions change.</p></div></div><a class="text-link" href="#interface">Examine the interface <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
     </section>
 
-    <section id="guide" class="guide section-shell" aria-labelledby="guide-title">
+    <section id="guide" class="guide section-shell" data-site-view="guide" aria-labelledby="guide-title">
       <div class="section-heading"><div><span class="eyebrow">03 / ACCESS</span><h2 id="guide-title">Prepare.<br>Configure. <span class="muted-word">Deploy.</span></h2></div><p>Source, documentation, and release checks.<br>Available through the project repository.</p></div>
       <div class="guide-grid"><article class="guide-step"><span class="step-number">1</span><h3>Access the source</h3><p>Review the source and documentation on GitHub. An account with repository access is required.</p><a class="text-link" href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">View repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></article><article class="guide-step"><span class="step-number">2</span><h3>Build the release</h3><p>Run the release build from a complete checkout. It runs the project checks and generates the Palantir Lua bundle.</p><a class="text-link" href="#build-guide">Build instructions <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-down"/></svg></a></article><article class="guide-step"><span class="step-number">3</span><h3>Define your configuration</h3><p>Select the features you need, review their settings, and save a profile for your next session.</p><a class="text-link" href="#questions">Read the briefing <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-down"/></svg></a></article></div>
       <details class="build-guide" id="build-guide"><summary><span><svg class="icon code-brackets" aria-hidden="true" focusable="false"><use href="#icon-code"/></svg> Build from the repository</span><svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><div class="build-guide-content"><p>With Node.js installed and the complete repository checked out, run this from the repository root. The project's build documentation describes its bundled tools and platform requirements.</p><div class="code-block"><code id="build-command">node palantir-main/.vscode/palantir.js build --mode release</code><button type="button" id="copy-command" aria-label="Copy build command"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-copy"/></svg><span>Copy</span></button></div><p class="output-note">Output: <code>palantir-main/output/release/palantir.lua</code></p><p id="copy-status" class="copy-status" role="status"></p><a class="text-link" href="https://github.com/corax32/palantir-main/blob/main/palantir-main/.vscode/README.md" target="_blank" rel="noopener noreferrer">Read the build documentation <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div></details>
     </section>
 
-    <section class="faq section-shell" id="questions" aria-labelledby="faq-title"><div><span class="eyebrow">04 / BRIEFING</span><h2 id="faq-title">Before deployment.</h2></div><div class="faq-list"><details><summary>Which game does Palantir support?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The current project targets Deepwoken. This site describes the toolkit as it exists today; additional game support is not promised.</p></details><details><summary>Does this website run Palantir?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The interface above is a browser-only demonstration. It does not connect to Roblox, change your game, or save your real Palantir settings. Palantir runs separately in its supported environment.</p></details><details><summary>Can I save different setups?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Yes. Palantir supports named local configurations, custom themes, and global or place-specific autoload. Saving a configuration is manual.</p></details><details><summary>Can I change the defense timings?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The Timing Builder supports custom sequences. Reload Timings refreshes the timing catalog. Target filters and manual-only move selections give you more control over when assistance is used.</p></details><details><summary>What should I expect from performance?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Results vary with your device, the scene, and enabled features. The release build runs automated checks and Luau validation; the built-in performance reports help investigate behavior in a live session.</p></details><details><summary>Why does the GitHub link ask for access?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The project repository is private. Sign in with a GitHub account that has access to view its source and documentation. This website does not grant repository access.</p></details></div></section>
+    <section class="faq section-shell" id="questions" data-site-view="questions" aria-labelledby="faq-title"><div><span class="eyebrow">04 / BRIEFING</span><h2 id="faq-title">Before deployment.</h2></div><div class="faq-list"><details><summary>Which game does Palantir support?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The current project targets Deepwoken. This site describes the toolkit as it exists today; additional game support is not promised.</p></details><details><summary>Does this website run Palantir?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The interface above is a browser-only demonstration. It does not connect to Roblox, change your game, or save your real Palantir settings. Palantir runs separately in its supported environment.</p></details><details><summary>Can I save different setups?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Yes. Palantir supports named local configurations, custom themes, and global or place-specific autoload. Saving a configuration is manual.</p></details><details><summary>Can I change the defense timings?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The Timing Builder supports custom sequences. Reload Timings refreshes the timing catalog. Target filters and manual-only move selections give you more control over when assistance is used.</p></details><details><summary>What should I expect from performance?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Results vary with your device, the scene, and enabled features. The release build runs automated checks and Luau validation; the built-in performance reports help investigate behavior in a live session.</p></details><details><summary>Why does the GitHub link ask for access?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The project repository is private. Sign in with a GitHub account that has access to view its source and documentation. This website does not grant repository access.</p></details></div></section>
 
 
-    <section class="closing" aria-labelledby="closing-title"><div class="section-shell"><span class="eyebrow">YOUR NEXT SESSION</span><a class="closing-link" href="#interface"><h2 id="closing-title">Act with clarity.</h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><p>Explore the console. Define your next move.</p></div></section>
+    <section class="closing" data-site-view="home" aria-labelledby="closing-title"><div class="section-shell"><span class="eyebrow">YOUR NEXT SESSION</span><a class="closing-link" href="#interface"><h2 id="closing-title">Act with clarity.</h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><p>Explore the console. Define your next move.</p></div></section>
   </main>
   <dialog class="dw-dialog" aria-label="Expanded Palantir menu"><div class="dw-dialog-top"><span>Palantir menu · browser preview</span><button class="dw-close" type="button" autofocus>Close <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></button></div></dialog>
   <footer class="site-footer">
@@ -209,7 +209,7 @@
       <div class="footer-brand"><a class="brand" href="#main" aria-label="Palantir home"><img class="brand-logo" src="assets/palantir-wordmark.svg" width="83" height="21" alt="" aria-hidden="true"></a><p>Clarity. Control. Precision.</p></div>
       <div class="footer-column"><h2>PLATFORM</h2><a href="#features">Capabilities</a><a href="#interface">The console</a><a href="#approach">Our approach</a></div>
       <div class="footer-column"><h2>RESOURCES</h2><a href="#guide">Get started</a><a href="#build-guide">Build instructions</a><a href="#questions">Project briefing</a></div>
-      <div class="footer-column"><h2>PROJECT</h2><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#main">Back to top <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div>
+      <div class="footer-column"><h2>PROJECT</h2><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="#main">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div>
     </div>
     <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</p><span>PALANTIR / DEEPWOKEN</span></div>
   </footer>

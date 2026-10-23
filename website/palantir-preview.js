@@ -303,6 +303,6 @@
   dialog.addEventListener('close', () => {
     home.append(windowElement);
     home.style.height = '';
-    expand.focus({preventScroll: true});
+    if (!expand.closest('[hidden], [inert]')) expand.focus({preventScroll: true});
   });
 })();

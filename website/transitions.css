@@ -1,4 +1,4 @@
-/* Section navigation: a brief angled curtain, below the first-load intro. */
+/* View navigation: a brief angled curtain, below the first-load intro. */
 html.transition-jump { scroll-behavior: auto !important; }
 
 #page-transition {
