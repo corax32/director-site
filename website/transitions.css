@@ -20,7 +20,7 @@ html.page-arriving #page-transition[data-phase="leaving"] .transition-mark { opa
 #page-transition .transition-curtain {
   position: absolute;
   inset: -20vmax;
-  background: #202020;
+  background: #000000;
   transform: translate3d(0, 105%, 0) rotate(-8deg);
 }
 
