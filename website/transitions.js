@@ -2,166 +2,118 @@
 
 (() => {
   const root = document.documentElement;
-  const panels = [...document.querySelectorAll('[data-site-view]')];
-  // Without view markup, real fragment links retain native navigation.
-  if (!panels.length) return;
-  const views = new Map();
-  panels.forEach(panel => {
-    const name = panel.dataset.siteView;
-    if (!views.has(name)) views.set(name, []);
-    views.get(name).push(panel);
-  });
   const curtain = document.querySelector('#page-transition');
-  const preference = matchMedia('(prefers-reduced-motion: reduce)');
-  const ENTER = 300, HOLD = 140, LEAVE = 400;
+  const preference = typeof matchMedia === 'function'
+    ? matchMedia('(prefers-reduced-motion: reduce)') : {matches: true};
+  const MARKER = 'palantir.page-transition.v1';
+  const ENTER = 300, HOLD = 140, LEAVE = 400, STALL = 10000;
+  const slugs = {home:'', features:'capabilities', interface:'console', approach:'approach', guide:'access', questions:'briefing'};
+  const page = root.dataset.page || 'home';
+  const normalizedPath = pathname => pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/');
+  const currentPath = normalizedPath(location.pathname);
+  const currentSlug = slugs[page];
+  const base = currentSlug && currentPath.endsWith('/' + currentSlug + '/')
+    ? currentPath.slice(0, -currentSlug.length - 1) : currentPath;
+  const paths = new Set(Object.values(slugs).map(slug => base + (slug ? slug + '/' : '')));
   let active = null;
-  let currentView = null;
-  let appliedURL = null;
-  let internalNavigation = false;
 
   function destination(href) {
-    let url, id;
-    try {
-      url = new URL(href, location.href);
-      if (url.origin !== location.origin || url.pathname !== location.pathname
-          || url.search !== location.search) return null;
-      id = decodeURIComponent(url.hash.slice(1));
-    } catch { return null; }
-    const target = id ? document.getElementById(id) : null;
-    const view = !id || id === 'main' || id === 'home' ? 'home'
-      : target?.closest('[data-site-view]')?.dataset.siteView
-        || (views.has(id) ? id : null);
-    if (!views.has(view) || !views.get(view).some(panel => panel.isConnected !== false)) return null;
-    return {url, view, target: target || views.get(view)[0], internal: id === 'build-guide'};
+    let url;
+    try { url = new URL(href, location.href); } catch { return null; }
+    if (url.origin !== location.origin || !paths.has(normalizedPath(url.pathname))) return null;
+    // A fragment within the current document belongs entirely to the browser.
+    if (normalizedPath(url.pathname) === currentPath && url.search === location.search) return null;
+    return url;
   }
 
-  function announce(next, animate, initial = false) {
-    const detail = {view: next.view, animate: Boolean(animate && !preference.matches), initial};
+  function clearMarker() {
+    try { sessionStorage.removeItem(MARKER); } catch { /* Storage may be unavailable. */ }
+  }
+
+  function announce(animate, initial = false) {
+    const detail = {view: page, animate: Boolean(animate && !preference.matches), initial};
     let event;
     if (typeof CustomEvent === 'function') event = new CustomEvent('palantir:viewchange', {detail});
     else { event = new Event('palantir:viewchange'); event.detail = detail; }
     window.dispatchEvent(event);
   }
 
-  function finish(operation = active, notify = false, animate = false) {
-    if (!operation || operation !== active) return;
-    if (typeof clearTimeout === 'function') operation.timers.forEach(clearTimeout);
+  function cleanup(operation = active) {
+    if (operation && operation !== active) return;
+    if (operation && typeof clearTimeout === 'function') operation.timers.forEach(clearTimeout);
     active = null;
     if (curtain) curtain.dataset.phase = 'idle';
-    if (notify && operation.committed && operation.destination.view === currentView) {
-      announce(operation.destination, animate);
-    }
+    root.classList.remove('page-arriving', 'page-departing');
   }
 
-  function focusDestination(next) {
-    const panel = views.get(next.view)[0];
-    const target = next.internal ? next.target.querySelector('summary') || next.target
-      : panel.querySelector('h1, h2, h3') || panel;
-    if (!target) return;
-    const temporary = !target.hasAttribute('tabindex');
-    if (temporary) {
-      target.setAttribute('tabindex', '-1');
-      target.addEventListener('blur', () => {
-        if (target.getAttribute('tabindex') === '-1') target.removeAttribute('tabindex');
-      }, {once: true});
-    }
-    target.focus({preventScroll: true});
+  function finishArrival(operation, animate) {
+    if (operation !== active) return;
+    cleanup(operation);
+    announce(animate);
   }
 
-  function show(next, {historyMode = 'none', focus = false, initial = false} = {}) {
-    // A modal owns the same console node as the inline preview. Close it before
-    // hiding its home; the preview's close handler restores that node in place.
-    const dialog = document.querySelector('.dw-dialog');
-    if (next.view !== 'interface' && dialog?.open) dialog.close();
-    for (const panel of panels) {
-      const visible = panel.dataset.siteView === next.view;
-      panel.hidden = !visible;
-      panel.inert = !visible;
+  function canAnimate() {
+    return curtain && !preference.matches && !document.hidden
+      && typeof setTimeout === 'function' && typeof clearTimeout === 'function';
+  }
+
+  function assign(operation) {
+    if (operation !== active || operation.assigned) return;
+    operation.assigned = true;
+    // This is only a visual arrival hint. The new document validates and consumes
+    // it; neither this script nor the bootstrap ever redirects from stored data.
+    try {
+      if (preference.matches) clearMarker();
+      else sessionStorage.setItem(MARKER, JSON.stringify({url: operation.url.href, at: Date.now()}));
+    } catch { clearMarker(); }
+    try {
+      if (typeof location.assign === 'function') location.assign(operation.url.href);
+      else location.href = operation.url.href;
+    } catch {
+      clearMarker();
+      cleanup(operation);
+      return;
     }
-    currentView = next.view;
-    root.dataset.view = next.view;
-    root.classList.add('site-views-ready');
-    for (const link of document.querySelectorAll('a[href]')) {
-      if (link.closest('.palantir-window, dialog, [role="dialog"]')) continue;
-      const route = destination(link.getAttribute('href'));
-      if (route?.view === next.view) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    }
-    if (next.internal) next.target.open = true;
-    if (historyMode === 'push' && location.href !== next.url.href) {
-      const oldURL = location.href;
+    // A blocked navigation must not leave this document covered indefinitely.
+    if (typeof setTimeout === 'function') {
       try {
-        history.pushState(null, '', next.url.hash || '#');
-        internalNavigation = true;
-        window.dispatchEvent(new HashChangeEvent('hashchange', {oldURL, newURL: location.href}));
-      } catch {
-        // The target view is already visible if History is unavailable.
-        location.hash = next.url.hash || '#';
-      } finally { internalNavigation = false; }
-    }
-    appliedURL = location.href;
-    // Initial home navigation lets the browser preserve reload/BFCache position.
-    if (!initial || next.url.hash) {
-      root.classList.add('transition-jump');
-      try {
-        if (next.internal) next.target.scrollIntoView({block: 'start', behavior: 'instant'});
-        else window.scrollTo({top: 0, behavior: 'instant'});
-      } finally { root.classList.remove('transition-jump'); }
-    }
-    if (focus) focusDestination(next);
-  }
-
-  function commit(operation, focus = true) {
-    if (operation !== active || operation.committed) return false;
-    const next = destination(operation.destination.url.href);
-    if (!next) { finish(operation); return false; }
-    operation.destination = next;
-    show(next, {historyMode: 'push', focus});
-    operation.committed = true;
-    return true;
-  }
-
-  function settle(operation = active, focus = true) {
-    if (!operation || operation !== active) return;
-    if (!operation.committed) commit(operation, focus);
-    finish(operation, true, false);
+        operation.timers.push(setTimeout(() => {
+          if (operation !== active) return;
+          clearMarker();
+          cleanup(operation);
+        }, STALL));
+      } catch { cleanup(operation); }
+    } else cleanup(operation);
   }
 
   function later(operation, callback, delay) {
     try {
-      operation.timers.push(setTimeout(() => {
-        if (operation === active) callback();
-      }, delay));
+      operation.timers.push(setTimeout(() => { if (operation === active) callback(); }, delay));
       return true;
-    } catch { settle(operation); return false; }
+    } catch {
+      if (operation.kind === 'outgoing') assign(operation);
+      else finishArrival(operation, false);
+      return false;
+    }
   }
 
-  function begin(next) {
-    const immediate = !curtain || preference.matches || document.hidden
-      || root.classList.contains('intro-pending') || typeof setTimeout !== 'function'
-      || typeof clearTimeout !== 'function';
-    if (active && !active.committed) {
-      active.destination = next;
-      if (immediate) settle(active);
+  function begin(url) {
+    if (active?.kind === 'outgoing' && !active.assigned) {
+      active.url = url;
       return;
     }
-    finish();
-    const operation = {destination: next, committed: false, timers: []};
+    cleanup();
+    const operation = {kind:'outgoing', url, timers:[], assigned:false};
     active = operation;
-    if (immediate || next.view === currentView) { settle(operation); return; }
+    if (!canAnimate() || root.classList.contains('intro-pending')) { assign(operation); return; }
+    root.classList.add('page-departing');
     curtain.dataset.phase = 'idle';
     void curtain.offsetWidth;
     curtain.dataset.phase = 'entering';
-    if (!later(operation, () => {
+    later(operation, () => {
       curtain.dataset.phase = 'covered';
-      if (!commit(operation)) return;
-      later(operation, () => {
-        curtain.dataset.phase = 'leaving';
-        later(operation, () => finish(operation, true, true), LEAVE);
-      }, HOLD);
-    }, ENTER)) return;
-    // A suspended/failed sequence must still resolve its accepted destination.
-    later(operation, () => settle(operation), 1200);
+      later(operation, () => assign(operation), HOLD);
+    }, ENTER);
   }
 
   document.addEventListener('click', event => {
@@ -170,34 +122,49 @@
     const link = event.target.closest?.('a[href]');
     if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')
         || link.matches('.skip-link') || link.closest('.palantir-window, dialog, [role="dialog"]')) return;
-    const next = destination(link.getAttribute('href'));
-    if (!next) return;
+    const url = destination(link.getAttribute('href'));
+    if (!url) return;
     event.preventDefault();
-    begin(next);
+    begin(url);
   });
 
-  function restore() {
-    if (internalNavigation) return;
-    finish();
-    if (appliedURL === location.href) return;
-    const next = destination(location.href) || destination('#main');
-    show(next);
-    announce(next, false);
-  }
-  window.addEventListener('popstate', restore);
-  window.addEventListener('hashchange', restore);
-  window.addEventListener('pagehide', () => finish());
-  document.addEventListener('visibilitychange', () => { if (document.hidden) settle(active, false); });
-  // Normal pointer focus and scrolling must not cancel an accepted tab click.
-  // Keyboard dismissal completes it now so no delayed navigation steals focus.
+  // Ordinary pointer focus and scrolling do not discard a clicked destination.
+  // Keyboard navigation before assign is an explicit cancellation of the delay.
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' || event.key === 'Tab') settle();
+    if (!['Escape', 'Tab'].includes(event.key) || active?.kind !== 'outgoing' || active.assigned) return;
+    clearMarker();
+    cleanup();
   });
-  const updatePreference = () => { if (preference.matches) settle(); };
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden || !active) return;
+    if (active.kind === 'arrival') finishArrival(active, false);
+    else assign(active);
+  });
+  // Keep the marker for the destination. Clear only this document's visual state
+  // so a later BFCache restore cannot bring a covering curtain back with it.
+  window.addEventListener('pagehide', () => cleanup());
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) return;
+    cleanup();
+    clearMarker();
+    announce(false);
+  });
+  const updatePreference = () => {
+    if (!preference.matches || !active) return;
+    if (active.kind === 'arrival') finishArrival(active, false);
+    else assign(active);
+  };
   if (preference.addEventListener) preference.addEventListener('change', updatePreference);
-  else preference.addListener(updatePreference);
+  else if (preference.addListener) preference.addListener(updatePreference);
 
-  const initial = destination(location.href) || destination('#main');
-  show(initial, {initial: true});
-  announce(initial, false, true);
+  if (root.classList.contains('page-arriving')) {
+    const operation = {kind:'arrival', timers:[]};
+    active = operation;
+    if (!canAnimate()) { finishArrival(operation, false); return; }
+    curtain.dataset.phase = 'covered';
+    later(operation, () => {
+      curtain.dataset.phase = 'leaving';
+      later(operation, () => finishArrival(operation, true), LEAVE);
+    }, HOLD);
+  } else announce(false, true);
 })();

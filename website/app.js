@@ -27,7 +27,7 @@ document.addEventListener('click', event => {
 });
 
 const copyButton = document.querySelector('#copy-command');
-copyButton.addEventListener('click', async () => {
+copyButton?.addEventListener('click', async () => {
   const command = document.querySelector('#build-command');
   const status = document.querySelector('#copy-status');
   try {
@@ -44,7 +44,10 @@ copyButton.addEventListener('click', async () => {
 });
 
 function openLinkedDetails() {
-  if (window.location.hash === '#build-guide') document.querySelector('#build-guide').open = true;
+  if (window.location.hash === '#build-guide') {
+    const guide = document.querySelector('#build-guide');
+    if (guide) guide.open = true;
+  }
 }
 window.addEventListener('hashchange', openLinkedDetails);
 document.querySelectorAll('a[href="#build-guide"]').forEach(link => link.addEventListener('click', () => {

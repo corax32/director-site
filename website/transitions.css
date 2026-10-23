@@ -1,6 +1,12 @@
 /* View navigation: a brief angled curtain, below the first-load intro. */
 html.transition-jump { scroll-behavior: auto !important; }
 
+/* The next document paints covered, then reveals after its controller is ready. */
+html.page-arriving #page-transition { visibility:visible; animation:section-transition-failsafe 1500ms steps(1,end) forwards; }
+html.page-arriving #page-transition .transition-curtain { transform:translate3d(0,0,0) rotate(-8deg); }
+html.page-arriving #page-transition .transition-mark { opacity:1; }
+html.page-arriving #page-transition[data-phase="leaving"] .transition-mark { opacity:0; }
+
 #page-transition {
   position: fixed;
   inset: 0;
