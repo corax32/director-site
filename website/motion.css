@@ -31,13 +31,13 @@
 @media (max-width: 520px) { .intro-skip { right: 20px; bottom: 24px; } }
 @media (prefers-reduced-motion: reduce) {
   /* Keep the introduction visible, using only a gentle opacity reveal. */
-  .intro-pending .site-intro { display: grid; animation: intro-exit .3s linear 2.7s forwards !important; }
-  .intro-fill { animation: intro-fill .5s ease .15s both !important; }
-  .intro-outline { opacity: 0; }
-  .intro-frame { opacity: .4; }
-  .hero-copy .muted-word { background: none; color: #aaa; }
-  .text-link::after, .feature::before { transition: none; }
-  .button:hover, .button:hover .icon, .button:focus-visible .icon, .text-link:hover .icon, .text-link:focus-visible .icon, .nav-project:hover .icon, .nav-project:focus-visible .icon, .feature:hover .feature-top .icon, .approach-visual:hover .orbit, .approach-visual:hover .orbit-mark, .closing-arrow:hover .icon, .closing-arrow:focus-visible .icon { transform: none; }
+  html:not([data-motion="full"]).intro-pending .site-intro { display: grid; animation: intro-exit .3s linear 2.7s forwards !important; }
+  html:not([data-motion="full"]) .intro-fill { animation: intro-fill .5s ease .15s both !important; }
+  html:not([data-motion="full"]) .intro-outline { opacity: 0; }
+  html:not([data-motion="full"]) .intro-frame { opacity: .4; }
+  html:not([data-motion="full"]) .hero-copy .muted-word { background: none; color: #aaa; }
+  html:not([data-motion="full"]) .text-link::after,html:not([data-motion="full"]) .feature::before { transition:none; }
+  html:not([data-motion="full"]) :is(.button:hover, .button:hover .icon, .button:focus-visible .icon, .text-link:hover .icon, .text-link:focus-visible .icon, .nav-project:hover .icon, .nav-project:focus-visible .icon, .feature:hover .feature-top .icon, .approach-visual:hover .orbit, .approach-visual:hover .orbit-mark, .closing-arrow:hover .icon, .closing-arrow:focus-visible .icon) { transform: none; }
 }
 
 .intro-ready .intro-logo, .intro-ready .intro-fill, .intro-ready .intro-wordmark, .intro-ready .intro-caption { animation: none !important; opacity: 1; transform: none; }

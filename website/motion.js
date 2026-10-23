@@ -4,7 +4,11 @@
   const root = document.documentElement;
   const intro = document.querySelector('#site-intro');
   const skip = intro.querySelector('.intro-skip');
-  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const systemPreference = matchMedia('(prefers-reduced-motion: reduce)');
+  const preference = {get matches() {
+    const mode = root.dataset?.motion;
+    return mode === 'full' ? false : mode === 'reduced' ? true : systemPreference.matches;
+  }};
   const running = new Set();
   let introTimer;
   let introRevealTimer;
@@ -106,8 +110,9 @@
     cancelReveals();
     if (!preference.matches) setupReveals();
   };
-  if (preference.addEventListener) preference.addEventListener('change', updatePreference);
-  else preference.addListener(updatePreference);
+  if (systemPreference.addEventListener) systemPreference.addEventListener('change', updatePreference);
+  else systemPreference.addListener(updatePreference);
+  window.addEventListener('palantir:motionchange', updatePreference);
   document.addEventListener('focusin', event => {
     // Cancelling a transform between pointerdown and click moves the target
     // away from the pointer. Keyboard focus still reveals its target at once.

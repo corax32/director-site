@@ -3,8 +3,12 @@
 (() => {
   const root = document.documentElement;
   const curtain = document.querySelector('#page-transition');
-  const preference = typeof matchMedia === 'function'
+  const systemPreference = typeof matchMedia === 'function'
     ? matchMedia('(prefers-reduced-motion: reduce)') : {matches: true};
+  const preference = {get matches() {
+    const mode = root.dataset.motion;
+    return mode === 'full' ? false : mode === 'reduced' ? true : systemPreference.matches;
+  }};
   const MARKER = 'palantir.page-transition.v1';
   const ENTER = 300, HOLD = 140, LEAVE = 400, STALL = 10000;
   const slugs = {home:'', features:'capabilities', interface:'console', approach:'approach', guide:'access', questions:'briefing'};
@@ -154,8 +158,9 @@
     if (active.kind === 'arrival') finishArrival(active, false);
     else assign(active);
   };
-  if (preference.addEventListener) preference.addEventListener('change', updatePreference);
-  else if (preference.addListener) preference.addListener(updatePreference);
+  if (systemPreference.addEventListener) systemPreference.addEventListener('change', updatePreference);
+  else if (systemPreference.addListener) systemPreference.addListener(updatePreference);
+  window.addEventListener('palantir:motionchange', updatePreference);
 
   if (root.classList.contains('page-arriving')) {
     const operation = {kind:'arrival', timers:[]};

@@ -18,6 +18,17 @@
       const root = document.documentElement;
       const page = root.dataset?.page || 'home';
       let arriving = false;
+      let motionPreference = 'system';
+      try {
+        const saved = localStorage.getItem('palantir.motion.v1');
+        if (['system', 'full', 'reduced'].includes(saved)) motionPreference = saved;
+      } catch { /* Device settings remain the fallback. */ }
+      const systemReduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const motion = motionPreference === 'system' ? (systemReduced ? 'reduced' : 'full') : motionPreference;
+      if (root.dataset) {
+        root.dataset.motionPreference = motionPreference;
+        root.dataset.motion = motion;
+      }
       try {
         if (typeof location.href === 'string') {
           const aliases = {'#features':'capabilities/','#interface':'console/','#approach':'approach/','#guide':'access/','#questions':'briefing/','#build-guide':'access/#build-guide'};
@@ -32,7 +43,7 @@
             const marker = JSON.parse(rawMarker || 'null');
             const age = Date.now() - Number(marker?.at);
             arriving = marker?.url === location.href && age >= 0 && age < 15000
-              && !(typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+              && motion !== 'reduced';
             if (arriving) root.classList.add('page-arriving');
           } catch { /* Navigation still works when storage is unavailable. */ }
         }
@@ -46,17 +57,18 @@
   </script>
   <link rel="icon" href="favicon.svg?v=20261020-official-mark" type="image/svg+xml">
   <link rel="stylesheet" href="palantir-preview.css?v=20261022-isolated">
-  <link rel="stylesheet" href="styles.css?v=20261022-pages">
-  <link rel="stylesheet" href="motion.css?v=20261022-pages">
+  <link rel="stylesheet" href="styles.css?v=20261022-motion">
+  <link rel="stylesheet" href="motion.css?v=20261022-motion">
   <link rel="preload" href="assets/fonts/AllianceNo1-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/AllianceNo2-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="brand.css?v=20261022-editorial">
-  <link rel="stylesheet" href="transitions.css?v=20261022-pages">
-  <script src="motion.js?v=20261022-pages" defer></script>
-  <script src="app.js?v=20261022-pages" defer></script>
-  <script src="transitions.js?v=20261022-pages" defer></script>
+  <link rel="stylesheet" href="transitions.css?v=20261022-motion">
+  <script src="motion-preference.js?v=20261022-motion" defer></script>
+  <script src="motion.js?v=20261022-motion" defer></script>
+  <script src="app.js?v=20261022-motion" defer></script>
+  <script src="transitions.js?v=20261022-motion" defer></script>
   <script src="palantir-controls.js?v=20261020-palantir" defer></script>
-  <script src="palantir-preview.js?v=20261022-pages" defer></script>
+  <script src="palantir-preview.js?v=20261022-motion" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -146,7 +158,7 @@
       <div class="footer-column"><h2>RESOURCES</h2><a href="access/">Get started</a><a href="access/#build-guide">Build instructions</a><a href="briefing/">Project briefing</a></div>
       <div class="footer-column"><h2>PROJECT</h2><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="./" aria-current="page">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div>
     </div>
-    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</p><span>PALANTIR / DEEPWOKEN</span></div>
+    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</p><label class="motion-setting" for="motion-preference">Page motion<select id="motion-preference"><option value="system">Device setting</option><option value="full">Full animation</option><option value="reduced">Reduced motion</option></select></label><span>PALANTIR / DEEPWOKEN</span></div>
   </footer>
 </body>
 </html>
