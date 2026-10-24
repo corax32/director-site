@@ -4,7 +4,7 @@ The public product website for Palantir.
 
 **Website preview:** https://corax32.github.io/palantir-z/
 
-**Custom domain:** https://palantir-x.com/ (Namecheap setup pending)
+**Custom domain:** https://palantir-x.com/ (live on Namecheap hosting)
 
 This repository contains only the website and its deployment workflow. The Palantir application's source is maintained separately in a private repository. The browser-only menu replica follows Palantir's Lua UI structure; its controls change the browser preview and do not connect to the game.
 

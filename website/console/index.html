@@ -18,11 +18,11 @@
       const root = document.documentElement;
       const page = root.dataset?.page || 'home';
       let arriving = false;
-      let motionPreference = 'system';
+      let motionPreference = 'full';
       try {
         const saved = localStorage.getItem('palantir.motion.v1');
         if (['system', 'full', 'reduced'].includes(saved)) motionPreference = saved;
-      } catch { /* Device settings remain the fallback. */ }
+      } catch { /* Full animation remains the fallback. */ }
       const systemReduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
       const motion = motionPreference === 'system' ? (systemReduced ? 'reduced' : 'full') : motionPreference;
       if (root.dataset) {
@@ -63,7 +63,7 @@
   <link rel="preload" href="../assets/fonts/AllianceNo2-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../brand.css?v=20261022-editorial">
   <link rel="stylesheet" href="../transitions.css?v=20261022-black-transition">
-  <script src="../motion-preference.js?v=20261022-motion" defer></script>
+  <script src="../motion-preference.js?v=20261023-full-default" defer></script>
   <script src="../motion.js?v=20261022-motion" defer></script>
   <script src="../app.js?v=20261022-motion" defer></script>
   <script src="../transitions.js?v=20261022-motion" defer></script>
@@ -161,7 +161,7 @@
       <div class="footer-column"><h2>RESOURCES</h2><a href="../access/">Get started</a><a href="../access/#build-guide">Build instructions</a><a href="../briefing/">Project briefing</a></div>
       <div class="footer-column"><h2>PROJECT</h2><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href=".././">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div>
     </div>
-    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</p><label class="motion-setting" for="motion-preference">Page motion<select id="motion-preference"><option value="system">Device setting</option><option value="full">Full animation</option><option value="reduced">Reduced motion</option></select></label><span>PALANTIR / DEEPWOKEN</span></div>
+    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</p><label class="motion-setting" for="motion-preference">Page motion<select id="motion-preference"><option value="full">Full animation</option><option value="system">Device setting</option><option value="reduced">Reduced motion</option></select></label><span>PALANTIR / DEEPWOKEN</span></div>
   </footer>
 </body>
 </html>

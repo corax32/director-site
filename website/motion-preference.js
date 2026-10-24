@@ -11,10 +11,10 @@
   if (!valid(choice)) {
     try { choice = localStorage.getItem(key); } catch { /* Optional preference. */ }
   }
-  if (!valid(choice)) choice = 'system';
+  if (!valid(choice)) choice = 'full';
 
   function apply(next, persist = false, notify = true) {
-    choice = valid(next) ? next : 'system';
+    choice = valid(next) ? next : 'full';
     const motion = choice === 'system' ? (media.matches ? 'reduced' : 'full') : choice;
     const changed = root.dataset.motion !== motion || root.dataset.motionPreference !== choice;
     root.dataset.motion = motion;
@@ -38,6 +38,6 @@
   if (media.addEventListener) media.addEventListener('change', systemChanged);
   else if (media.addListener) media.addListener(systemChanged);
   window.addEventListener('storage', event => {
-    if (event.key === key) apply(event.newValue);
+    if (event.key === key || event.key === null) apply(event.newValue);
   });
 })();
