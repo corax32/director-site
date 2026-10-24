@@ -11,7 +11,7 @@
   }};
   const MARKER = 'palantir.page-transition.v1';
   const ENTER = 300, HOLD = 140, LEAVE = 400, STALL = 10000;
-  const slugs = {home:'', features:'capabilities', interface:'console', approach:'approach', guide:'access', questions:'briefing'};
+  const slugs = {home:'', features:'products', interface:'console', approach:'approach', guide:'access', questions:'briefing'};
   const page = root.dataset.page || 'home';
   const normalizedPath = pathname => pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/');
   const currentPath = normalizedPath(location.pathname);

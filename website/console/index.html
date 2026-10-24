@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Palantir brings situational awareness and precise control to Deepwoken. Combat analysis, world visuals, and session tools in one interface.">
+  <meta name="description" content="Palantir brings combat analysis, world visuals, and session tools into one configurable interface.">
   <meta property="og:title" content="Console — Palantir">
-  <meta property="og:description" content="Palantir brings situational awareness and precise control to Deepwoken. Combat analysis, world visuals, and session tools in one interface.">
+  <meta property="og:description" content="Palantir brings combat analysis, world visuals, and session tools into one configurable interface.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://palantir-x.com/console/">
   <link rel="canonical" href="https://palantir-x.com/console/">
@@ -31,7 +31,7 @@
       }
       try {
         if (typeof location.href === 'string') {
-          const aliases = {'#features':'capabilities/','#interface':'console/','#approach':'approach/','#guide':'access/','#questions':'briefing/','#build-guide':'access/#build-guide'};
+          const aliases = {'#features':'products/','#interface':'console/','#approach':'approach/','#guide':'access/','#questions':'briefing/','#build-guide':'access/#build-guide'};
           if (page === 'home' && aliases[location.hash]) {
             location.replace(new URL(aliases[location.hash], location.href).href);
             return;
@@ -66,7 +66,7 @@
   <script src="../motion-preference.js?v=20261023-full-default" defer></script>
   <script src="../motion.js?v=20261022-motion" defer></script>
   <script src="../app.js?v=20261022-motion" defer></script>
-  <script src="../transitions.js?v=20261022-motion" defer></script>
+  <script src="../transitions.js?v=20261023-products" defer></script>
   <script src="../palantir-controls.js?v=20261020-palantir" defer></script>
   <script src="../palantir-preview.js?v=20261022-motion" defer></script>
 </head>
@@ -113,14 +113,14 @@
 
   <header class="site-header">
     <a class="brand" href=".././" aria-label="Palantir home"><img class="brand-logo" src="../assets/palantir-wordmark.svg" width="83" height="21" alt="" aria-hidden="true"></a>
-    <div class="header-shortcuts" role="navigation" aria-label="Page tabs"><a href=".././">Home</a><a href="../capabilities/">Capabilities</a><a href="../console/" aria-current="page">Console</a><a href="../approach/">Approach</a><a href="../access/">Access</a><a href="../briefing/">Briefing</a></div>
+    <div class="header-shortcuts" role="navigation" aria-label="Page tabs"><a href=".././">Home</a><a href="../products/">Products</a><a href="../console/" aria-current="page">Console</a><a href="../approach/">Approach</a><a href="../access/">Access</a><a href="../briefing/">Briefing</a></div>
     <div class="header-actions">
       <a class="header-start" href="../console/" aria-current="page">Open console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
     </div>
     <nav id="navigation" aria-label="Main navigation">
-      <div class="nav-main"><span class="nav-label">NAVIGATION</span><a href=".././">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../capabilities/">Capabilities <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../console/" aria-current="page">The console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../approach/">Our approach <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../access/">Access <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
-      <div class="nav-aside"><span class="nav-label">PALANTIR / DEEPWOKEN</span><p>Clarity.<br>Control.<br>Precision.</p><a href="../briefing/">Project briefing <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-right"/></svg></a><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
+      <div class="nav-main"><span class="nav-label">NAVIGATION</span><a href=".././">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../products/">Products <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../console/" aria-current="page">The console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../approach/">Our approach <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../access/">Access <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
+      <div class="nav-aside"><span class="nav-label">PALANTIR SYSTEMS</span><p>Clarity.<br>Control.<br>Precision.</p><a href="../briefing/">Project briefing <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-right"/></svg></a><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
     </nav>
   </header>
 
@@ -157,11 +157,11 @@
   <footer class="site-footer">
     <div class="footer-main section-shell">
       <div class="footer-brand"><a class="brand" href=".././" aria-label="Palantir home"><img class="brand-logo" src="../assets/palantir-wordmark.svg" width="83" height="21" alt="" aria-hidden="true"></a><p>Clarity. Control. Precision.</p></div>
-      <div class="footer-column"><h2>PLATFORM</h2><a href="../capabilities/">Capabilities</a><a href="../console/" aria-current="page">The console</a><a href="../approach/">Our approach</a></div>
+      <div class="footer-column"><h2>PLATFORM</h2><a href="../products/">Products</a><a href="../console/" aria-current="page">The console</a><a href="../approach/">Our approach</a></div>
       <div class="footer-column"><h2>RESOURCES</h2><a href="../access/">Get started</a><a href="../access/#build-guide">Build instructions</a><a href="../briefing/">Project briefing</a></div>
       <div class="footer-column"><h2>PROJECT</h2><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href=".././">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div>
     </div>
-    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</p><label class="motion-setting" for="motion-preference">Page motion<select id="motion-preference"><option value="full">Full animation</option><option value="system">Device setting</option><option value="reduced">Reduced motion</option></select></label><span>PALANTIR / DEEPWOKEN</span></div>
+    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies or Roblox.</p><label class="motion-setting" for="motion-preference">Page motion<select id="motion-preference"><option value="full">Full animation</option><option value="system">Device setting</option><option value="reduced">Reduced motion</option></select></label><span>PALANTIR SYSTEMS</span></div>
   </footer>
 </body>
 </html>

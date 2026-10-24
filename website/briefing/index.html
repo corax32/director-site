@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Palantir brings situational awareness and precise control to Deepwoken. Combat analysis, world visuals, and session tools in one interface.">
+  <meta name="description" content="Palantir brings combat analysis, world visuals, and session tools into one configurable interface.">
   <meta property="og:title" content="Briefing — Palantir">
-  <meta property="og:description" content="Palantir brings situational awareness and precise control to Deepwoken. Combat analysis, world visuals, and session tools in one interface.">
+  <meta property="og:description" content="Palantir brings combat analysis, world visuals, and session tools into one configurable interface.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://palantir-x.com/briefing/">
   <link rel="canonical" href="https://palantir-x.com/briefing/">
@@ -31,7 +31,7 @@
       }
       try {
         if (typeof location.href === 'string') {
-          const aliases = {'#features':'capabilities/','#interface':'console/','#approach':'approach/','#guide':'access/','#questions':'briefing/','#build-guide':'access/#build-guide'};
+          const aliases = {'#features':'products/','#interface':'console/','#approach':'approach/','#guide':'access/','#questions':'briefing/','#build-guide':'access/#build-guide'};
           if (page === 'home' && aliases[location.hash]) {
             location.replace(new URL(aliases[location.hash], location.href).href);
             return;
@@ -66,7 +66,7 @@
   <script src="../motion-preference.js?v=20261023-full-default" defer></script>
   <script src="../motion.js?v=20261022-motion" defer></script>
   <script src="../app.js?v=20261022-motion" defer></script>
-  <script src="../transitions.js?v=20261022-motion" defer></script>
+  <script src="../transitions.js?v=20261023-products" defer></script>
   <script src="../palantir-controls.js?v=20261020-palantir" defer></script>
   <script src="../palantir-preview.js?v=20261022-motion" defer></script>
 </head>
@@ -113,28 +113,28 @@
 
   <header class="site-header">
     <a class="brand" href=".././" aria-label="Palantir home"><img class="brand-logo" src="../assets/palantir-wordmark.svg" width="83" height="21" alt="" aria-hidden="true"></a>
-    <div class="header-shortcuts" role="navigation" aria-label="Page tabs"><a href=".././">Home</a><a href="../capabilities/">Capabilities</a><a href="../console/">Console</a><a href="../approach/">Approach</a><a href="../access/">Access</a><a href="../briefing/" aria-current="page">Briefing</a></div>
+    <div class="header-shortcuts" role="navigation" aria-label="Page tabs"><a href=".././">Home</a><a href="../products/">Products</a><a href="../console/">Console</a><a href="../approach/">Approach</a><a href="../access/">Access</a><a href="../briefing/" aria-current="page">Briefing</a></div>
     <div class="header-actions">
       <a class="header-start" href="../console/">Open console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
     </div>
     <nav id="navigation" aria-label="Main navigation">
-      <div class="nav-main"><span class="nav-label">NAVIGATION</span><a href=".././">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../capabilities/">Capabilities <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../console/">The console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../approach/">Our approach <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../access/">Access <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
-      <div class="nav-aside"><span class="nav-label">PALANTIR / DEEPWOKEN</span><p>Clarity.<br>Control.<br>Precision.</p><a href="../briefing/" aria-current="page">Project briefing <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-right"/></svg></a><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
+      <div class="nav-main"><span class="nav-label">NAVIGATION</span><a href=".././">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../products/">Products <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../console/">The console <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../approach/">Our approach <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href="../access/">Access <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
+      <div class="nav-aside"><span class="nav-label">PALANTIR SYSTEMS</span><p>Clarity.<br>Control.<br>Precision.</p><a href="../briefing/" aria-current="page">Project briefing <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-right"/></svg></a><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a></div>
     </nav>
   </header>
 
   <main id="main">
-    <section class="faq section-shell" id="questions" data-site-view="questions" aria-labelledby="faq-title"><div><span class="eyebrow">04 / BRIEFING</span><h2 id="faq-title">Before deployment.</h2></div><div class="faq-list"><details><summary>Which game does Palantir support?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The current project targets Deepwoken. This site describes the toolkit as it exists today; additional game support is not promised.</p></details><details><summary>Does this website run Palantir?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The interface above is a browser-only demonstration. It does not connect to Roblox, change your game, or save your real Palantir settings. Palantir runs separately in its supported environment.</p></details><details><summary>Can I save different setups?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Yes. Palantir supports named local configurations, custom themes, and global or place-specific autoload. Saving a configuration is manual.</p></details><details><summary>Can I change the defense timings?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The Timing Builder supports custom sequences. Reload Timings refreshes the timing catalog. Target filters and manual-only move selections give you more control over when assistance is used.</p></details><details><summary>What should I expect from performance?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Results vary with your device, the scene, and enabled features. The release build runs automated checks and Luau validation; the built-in performance reports help investigate behavior in a live session.</p></details><details><summary>Why does the GitHub link ask for access?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The project repository is private. Sign in with a GitHub account that has access to view its source and documentation. This website does not grant repository access.</p></details></div></section>
+    <section class="faq section-shell" id="questions" data-site-view="questions" aria-labelledby="faq-title"><div><span class="eyebrow">04 / BRIEFING</span><h2 id="faq-title">Before deployment.</h2></div><div class="faq-list"><details><summary>What is Palantir?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Palantir is an independent toolkit that brings combat analysis, world visuals, and session controls into one configurable interface. This site presents its current features and a browser-only console demonstration.</p></details><details><summary>Does this website run Palantir?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The interface above is a browser-only demonstration. It does not connect to Roblox, change your game, or save your real Palantir settings. Palantir runs separately in its supported environment.</p></details><details><summary>Can I save different setups?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Yes. Palantir supports named local configurations, custom themes, and global or place-specific autoload. Saving a configuration is manual.</p></details><details><summary>Can I change the defense timings?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The Timing Builder supports custom sequences. Reload Timings refreshes the timing catalog. Target filters and manual-only move selections give you more control over when assistance is used.</p></details><details><summary>What should I expect from performance?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>Results vary with your device, the scene, and enabled features. The release build runs automated checks and Luau validation; the built-in performance reports help investigate behavior in a live session.</p></details><details><summary>Why does the GitHub link ask for access?<svg class="icon details-plus" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg></summary><p>The project repository is private. Sign in with a GitHub account that has access to view its source and documentation. This website does not grant repository access.</p></details></div></section>
   </main>
   <footer class="site-footer">
     <div class="footer-main section-shell">
       <div class="footer-brand"><a class="brand" href=".././" aria-label="Palantir home"><img class="brand-logo" src="../assets/palantir-wordmark.svg" width="83" height="21" alt="" aria-hidden="true"></a><p>Clarity. Control. Precision.</p></div>
-      <div class="footer-column"><h2>PLATFORM</h2><a href="../capabilities/">Capabilities</a><a href="../console/">The console</a><a href="../approach/">Our approach</a></div>
+      <div class="footer-column"><h2>PLATFORM</h2><a href="../products/">Products</a><a href="../console/">The console</a><a href="../approach/">Our approach</a></div>
       <div class="footer-column"><h2>RESOURCES</h2><a href="../access/">Get started</a><a href="../access/#build-guide">Build instructions</a><a href="../briefing/" aria-current="page">Project briefing</a></div>
       <div class="footer-column"><h2>PROJECT</h2><a href="https://github.com/corax32/palantir-main" target="_blank" rel="noopener noreferrer">Source repository <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up-right"/></svg></a><a href=".././">Home <svg class="icon" aria-hidden="true" focusable="false"><use href="#arrow-up"/></svg></a></div>
     </div>
-    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies, Roblox, or Deepwoken.</p><label class="motion-setting" for="motion-preference">Page motion<select id="motion-preference"><option value="full">Full animation</option><option value="system">Device setting</option><option value="reduced">Reduced motion</option></select></label><span>PALANTIR / DEEPWOKEN</span></div>
+    <div class="footer-bottom section-shell"><p>Independent project. Not affiliated with Palantir Technologies or Roblox.</p><label class="motion-setting" for="motion-preference">Page motion<select id="motion-preference"><option value="full">Full animation</option><option value="system">Device setting</option><option value="reduced">Reduced motion</option></select></label><span>PALANTIR SYSTEMS</span></div>
   </footer>
 </body>
 </html>
